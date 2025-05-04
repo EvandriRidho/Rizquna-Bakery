@@ -18,14 +18,14 @@
 
 ## 🛠️ Teknologi yang Digunakan
 
-### Frontend:
+### Frontend :
 
 - **React.js**
 - **React Router**
 - **Axios**
 - **Tailwind CSS**
 
-### Backend:
+### Backend :
 
 - **Node.js**
 - **Express.js**
