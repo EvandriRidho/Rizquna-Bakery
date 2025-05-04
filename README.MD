@@ -2,7 +2,7 @@
 
 **Rizquna Bakery** adalah aplikasi web toko roti online modern yang dibangun menggunakan teknologi **MERN Stack** (MongoDB, Express.js, React.js, dan Node.js). Aplikasi ini memungkinkan pengguna untuk menjelajahi produk bakery, melakukan pemesanan, serta mengelola produk dan pesanan melalui dashboard admin.
 
----
+----
 
 ## 🚀 Fitur Utama
 
@@ -14,7 +14,7 @@
 - 🌐 **API RESTful** – Backend menyediakan API yang digunakan frontend untuk berinteraksi dengan data.
 - 🔐 **JWT Authentication** – Keamanan login menggunakan JSON Web Token.
 
----
+----
 
 ## 🛠️ Teknologi yang Digunakan
 
@@ -32,4 +32,4 @@
 - **MongoDB** & **Mongoose**
 - **JWT (JSON Web Token)**
 
----
+----
