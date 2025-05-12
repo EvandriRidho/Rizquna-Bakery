@@ -21,15 +21,12 @@
 ### Frontend :
 
 - **React.js**
-- **React Router**
-- **Axios**
 - **Tailwind CSS**
 
 ### Backend :
 
 - **Node.js**
 - **Express.js**
-- **MongoDB** & **Mongoose**
-- **JWT (JSON Web Token)**
+- **MongoDB**
 
 ----
