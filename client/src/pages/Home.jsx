@@ -1,4 +1,5 @@
 import Banner from "../components/Banner"
+import BestSeller from "../components/BestSeller"
 import Categories from "../components/categories"
 
 const Home = () => {
@@ -6,6 +7,7 @@ const Home = () => {
         <div className="mt-10">
             <Banner />
             <Categories />
+            <BestSeller />
         </div>
     )
 }

@@ -102,46 +102,34 @@ export const assets = {
 
 export const categories = [
   {
-    text: "Organic veggies",
-    path: "Vegetables",
+    text: "Roti",
+    path: "Roti",
     image: organic_vegitable_image,
     bgColor: "#FEF6DA",
   },
   {
-    text: "Fresh Fruits",
-    path: "Fruits",
+    text: "Brownies",
+    path: "Brownies",
     image: fresh_fruits_image,
     bgColor: "#FEE0E0",
   },
   {
-    text: "Cold Drinks",
-    path: "Drinks",
+    text: "Donat",
+    path: "Donat",
     image: bottles_image,
     bgColor: "#F0F5DE",
   },
   {
-    text: "Instant Food",
-    path: "Instant",
+    text: "Puding",
+    path: "Puding",
     image: maggi_image,
     bgColor: "#E1F5EC",
   },
   {
-    text: "Dairy Products",
-    path: "Dairy",
+    text: "Aneka Bolu",
+    path: "AnekaBolu",
     image: dairy_product_image,
     bgColor: "#FEE6CD",
-  },
-  {
-    text: "Bakery & Breads",
-    path: "Bakery",
-    image: bakery_image,
-    bgColor: "#E0F6FE",
-  },
-  {
-    text: "Grains & Cereals",
-    path: "Grains",
-    image: grain_image,
-    bgColor: "#F1E3F9",
   },
 ];
 
@@ -205,7 +193,7 @@ export const dummyProducts = [
   {
     _id: "gd46g23h",
     name: "Potato 500g",
-    category: "Vegetables",
+    category: "Roti",
     price: 25,
     offerPrice: 20,
     image: [potato_image_1, potato_image_2, potato_image_3, potato_image_4],
@@ -221,7 +209,7 @@ export const dummyProducts = [
   {
     _id: "gd47g34h",
     name: "Tomato 1 kg",
-    category: "Vegetables",
+    category: "Brownies",
     price: 40,
     offerPrice: 35,
     image: [tomato_image],
@@ -238,7 +226,7 @@ export const dummyProducts = [
   {
     _id: "gd48g45h",
     name: "Carrot 500g",
-    category: "Vegetables",
+    category: "Donat",
     price: 30,
     offerPrice: 28,
     image: [carrot_image],
@@ -254,7 +242,7 @@ export const dummyProducts = [
   {
     _id: "gd49g56h",
     name: "Spinach 500g",
-    category: "Vegetables",
+    category: "Puding",
     price: 18,
     offerPrice: 15,
     image: [spinach_image_1],
@@ -270,7 +258,7 @@ export const dummyProducts = [
   {
     _id: "gd50g67h",
     name: "Onion 500g",
-    category: "Vegetables",
+    category: "Aneka Bolu",
     price: 22,
     offerPrice: 19,
     image: [onion_image_1],

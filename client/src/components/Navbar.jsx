@@ -23,13 +23,13 @@ const Navbar = () => {
 
             {/* Desktop Menu */}
             <div className="hidden sm:flex items-center gap-8">
-                <NavLink to={'/'}>Home</NavLink>
-                <NavLink to={'/products'}>All Products</NavLink>
-                <NavLink to={'/'}>Contact</NavLink>
+                <NavLink to={'/'}>Beranda</NavLink>
+                <NavLink to={'/products'}>Semua Produk</NavLink>
+                <NavLink to={'/'}>Kontak</NavLink>
 
                 {/* Search Bar */}
                 <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
-                    <input className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500" type="text" placeholder="Search products" />
+                    <input className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500" type="text" placeholder="Cari Produk" />
                     <img className='h-4 w-4' alt='search' src={assets.search_icon} />
                 </div>
 
@@ -58,7 +58,7 @@ const Navbar = () => {
                                     className='p-1.5 pl-3 hover:bg-primary/10 cursor-pointer'
                                     onClick={() => navigate('/my-orders')}
                                 >
-                                    My Orders
+                                        Orderan Saya
                                 </li>
                                 <li
                                     onClick={logout}

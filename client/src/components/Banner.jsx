@@ -14,18 +14,18 @@ const Banner = () => {
                 <h1
                     className='text-3xl md:text-4xl lg:text-5-xl font-bold text-center md:text-left max-w-72 md:max-w-80 lg:max-w-105 loading-tight lg:leading-15'
                 >
-                    Freshness you can trust, savings you will love!
+                    Kelezatan yang bisa kamu percaya, manis yang selalu menggoda!
                 </h1>
 
 
                 <div className='flex items-center mt-6 font-medium'>
                     <Link to={'/products'} className='group flex items-center gap-2 px-7 md:px-9 py-3 bg-primary hover:bg-primary-dull transition rounded text-white cursor-pointer'>
-                        Shop Now
+                        Belanja Sekarang
                         <img src={assets.white_arrow_icon} alt="arrow" className='md:hidden transition group-focus:translate-x-1' />
                     </Link>
 
                     <Link to={'/products'} className='group hidden md:flex items-center gap-2 px-9  py-3  cursor-pointer'>
-                        Explore Deals
+                        Lihat Penawaran
                         <img src={assets.black_arrow_icon} alt="arrow" className='transition group-hover:translate-x-1' />
                     </Link>
                 </div>
