@@ -135,27 +135,27 @@ export const categories = [
 
 export const footerLinks = [
   {
-    title: "Quick Links",
+    title: "Tautan Cepat",
     links: [
-      { text: "Home", url: "#" },
-      { text: "Best Sellers", url: "#" },
-      { text: "Offers & Deals", url: "#" },
-      { text: "Contact Us", url: "#" },
-      { text: "FAQs", url: "#" },
+      { text: "Beranda", url: "#" },
+      { text: "Terlaris", url: "#" },
+      { text: "Penawaran & Promo", url: "#" },
+      { text: "Hubungi Kami", url: "#" },
+      { text: "FAQ", url: "#" },
     ],
   },
   {
-    title: "Need help?",
+    title: "Butuh Bantuan?",
     links: [
-      { text: "Delivery Information", url: "#" },
-      { text: "Return & Refund Policy", url: "#" },
-      { text: "Payment Methods", url: "#" },
-      { text: "Track your Order", url: "#" },
-      { text: "Contact Us", url: "#" },
+      { text: "Informasi Pengiriman", url: "#" },
+      { text: "Kebijakan Pengembalian & Refund", url: "#" },
+      { text: "Metode Pembayaran", url: "#" },
+      { text: "Lacak Pesanan", url: "#" },
+      { text: "Hubungi Kami", url: "#" },
     ],
   },
   {
-    title: "Follow Us",
+    title: "Ikuti Kami",
     links: [
       { text: "Instagram", url: "#" },
       { text: "Twitter", url: "#" },
@@ -163,28 +163,29 @@ export const footerLinks = [
       { text: "YouTube", url: "#" },
     ],
   },
+
 ];
 
 export const features = [
   {
     icon: delivery_truck_icon,
-    title: "Fastest Delivery",
-    description: "Groceries delivered in under 30 minutes.",
+    title: "Pengiriman Tercepat",
+    description: "Belanjaan diantar dalam waktu kurang dari 30 menit.",
   },
   {
     icon: leaf_icon,
-    title: "Freshness Guaranteed",
-    description: "Fresh produce straight from the source.",
+    title: "Kesegaran Terjamin",
+    description: "Produk segar langsung dari sumbernya.",
   },
   {
     icon: coin_icon,
-    title: "Affordable Prices",
-    description: "Quality groceries at unbeatable prices.",
+    title: "Harga Terjangkau",
+    description: "Belanja berkualitas dengan harga yang tak tertandingi.",
   },
   {
     icon: trust_icon,
-    title: "Trusted by Thousands",
-    description: "Loved by 10,000+ happy customers.",
+    title: "Dipercaya Ribuan Orang",
+    description: "Dicintai oleh lebih dari 10.000 pelanggan puas.",
   },
 ];
 
