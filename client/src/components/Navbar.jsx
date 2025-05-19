@@ -46,7 +46,10 @@ const Navbar = () => {
                 {
                     !user ? (
                         <button className="cursor-pointer px-6 py-2 bg-primary hover:bg-primary-dull transition text-white rounded-full text-sm"
-                            onClick={() => setShowUserLogin(true)}
+                            onClick={() => {
+                                setShowUserLogin(true)
+                                setOpen(false)
+                            }}
                         >
                             Login
                         </button>
