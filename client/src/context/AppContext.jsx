@@ -34,7 +34,7 @@ export const AppContextProvider = ({ children }) => {
             cartData[itemId] = 1;
         }
         setCartItems(cartData)
-        toast.success('Item added to cart')
+        toast.success('Item Berhasil di tambah')
     }
 
     // Update Cart
@@ -42,7 +42,7 @@ export const AppContextProvider = ({ children }) => {
         let cartData = structuredClone(cartItems)
         cartData[itemId] = quantity
         setCartItems(cartData)
-        toast.success('Update Cart')
+        toast.success('Item Berhasil di update')
     }
 
     // Remove Cart
@@ -55,8 +55,29 @@ export const AppContextProvider = ({ children }) => {
                 delete cartData[itemId]
             }
             setCartItems(cartData)
-            toast.success('Item removed from cart')
+            toast.success('Item Berhasil di hapus')
         }
+    }
+
+    // Get Cart Item Count
+    const getCartCount = () => {
+        let totalCount = 0
+        for (const item in cartItems) {
+            totalCount += cartItems[item]
+        }
+        return totalCount
+    }
+
+    // Get cart total amount
+    const getCartAmount = () => {
+        let totalAmount = 0
+        for (const items in cartItems) {
+            let itemInfo = products.find((product) => product._id === items)
+            if (cartItems[items] > 0) {
+                totalAmount += itemInfo.offerPrice * cartItems[items]
+            }
+        }
+        return Math.floor(totalAmount * 100) / 100
     }
 
     useEffect(() => {
@@ -64,7 +85,7 @@ export const AppContextProvider = ({ children }) => {
     }, [])
 
 
-    const value = { navigate, user, setUser, isSeller, setIsSeller, showUserLogin, setShowUserLogin, products, currency, addToCart, updateCartItem, removeCartItem, cartItems, searchQuery, setSearchQuery }
+    const value = { navigate, user, setUser, isSeller, setIsSeller, showUserLogin, setShowUserLogin, products, currency, addToCart, updateCartItem, removeCartItem, cartItems, searchQuery, setSearchQuery, getCartCount, getCartAmount }
     return (
         <AppContext.Provider value={value}>
             {children}
