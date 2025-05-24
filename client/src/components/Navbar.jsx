@@ -98,7 +98,6 @@ const Navbar = () => {
             </button>
 
 
-
             {/* Mobile Menu */}
             {
                 open && (
