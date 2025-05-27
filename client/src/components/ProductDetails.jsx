@@ -8,26 +8,21 @@ const ProductDetails = () => {
     const { products, navigate, currency, addToCart } = useAppContext();
     const { id } = useParams();
 
-    const product = products.find((item) => item._id === id);
-
     const [relatedProducts, setRelatedProducts] = useState([]);
     const [thumbnail, setThumbnail] = useState(null);
 
-    useEffect(() => {
-        if (products.length > 0 && product) {
-            const related = products.filter(
-                (item) => item.category === product.category && item._id !== product._id
-            );
-            setRelatedProducts(related.slice(0, 5));
-        }
-    }, [product, products]);
+    const product = products.find((item) => item._id === id);
 
     useEffect(() => {
-        if (product?.images?.length > 0) {
-            setThumbnail(product.images[0]);
-        } else {
-            setThumbnail(null);
+        if (products.length > 0) {
+            let productCopy = products.slice();
+            productCopy = productCopy.filter((item) => product.category === item.category);
+            setRelatedProducts(productCopy.slice(0, 5));
         }
+    }, [products])
+
+    useEffect(() => {
+        setThumbnail(product?.image[0] ? product.image[0] : null);
     }, [product]);
 
     return product && (

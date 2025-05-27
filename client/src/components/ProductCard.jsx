@@ -41,7 +41,7 @@ const ProductCard = ({ product }) => {
                                 onClick={() => addToCart(product._id)}
                             >
                                 <img src={assets.cart_icon} alt="cart-icon" />
-                                Add
+                                Tambah
                             </button>
                         ) : (
                             <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-[34px] bg-primary/25 rounded select-none">

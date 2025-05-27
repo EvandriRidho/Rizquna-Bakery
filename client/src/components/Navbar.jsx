@@ -101,15 +101,15 @@ const Navbar = () => {
             {/* Mobile Menu */}
             {
                 open && (
-                    <div className={`${open ? 'flex' : 'hidden'} absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden`}>
-                        <NavLink to={'/'} onClick={() => setOpen(false)}>Home</NavLink>
-                        <NavLink to={'/products'} onClick={() => setOpen(false)}>All Products</NavLink>
+                    <div className={`${open ? 'flex' : 'hidden'} absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden z-10`}>
+                        <NavLink to={'/'} onClick={() => setOpen(false)}>Beranda</NavLink>
+                        <NavLink to={'/products'} onClick={() => setOpen(false)}>Semua Produk</NavLink>
 
                         {user &&
-                            <NavLink to={'/products'} onClick={() => setOpen(false)}>My Orders</NavLink>
+                            <NavLink to={'/products'} onClick={() => setOpen(false)}>Orderan Saya</NavLink>
                         }
 
-                        <NavLink to={'/'} onClick={() => setOpen(false)}>Contact</NavLink>
+                        <NavLink to={'/'} onClick={() => setOpen(false)}>kontak</NavLink>
 
                         {!user ? (
                             <button className="cursor-pointer px-6 py-2 mt-2 bg-primary hover:bg-primary-dull transition text-white rounded-full text-sm"
