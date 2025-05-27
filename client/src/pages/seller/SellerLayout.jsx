@@ -7,9 +7,9 @@ const SellerLayout = () => {
     const { setIsSeller } = useAppContext()
 
     const sidebarLinks = [
-        { name: "Add Product", path: "/seller", icon: assets.add_icon },
-        { name: "Product List", path: "/seller/product-list", icon: assets.product_list_icon },
-        { name: "Orders", path: "/seller/orders", icon: assets.order_icon },
+        { name: "Tambah Produk", path: "/seller", icon: assets.add_icon },
+        { name: "List Produk", path: "/seller/product-list", icon: assets.product_list_icon },
+        { name: "Orderan", path: "/seller/orders", icon: assets.order_icon },
     ];
 
     const logout = async () => {
@@ -23,7 +23,7 @@ const SellerLayout = () => {
                     <img className="cursor-pointer w-34 md:w-38" src={assets.logo} alt="logo" />
                 </Link>
                 <div className="flex items-center gap-5 text-gray-500">
-                    <p>Hi! Admin</p>
+                    <p>Halo! Admin</p>
                     <button onClick={logout} className='border rounded-full text-sm px-4 py-1'>Logout</button>
                 </div>
             </div>
