@@ -4,7 +4,7 @@
 
 ## ✨ Fitur Utama
 
-* 🥐 Katalog produk roti
+* 🥐 Katalog produk
 * 🔐 Autentikasi (Login & Sign Up)
 * 🚞️ CRUD produk untuk admin
 * 💳 Sistem pembayaran
@@ -33,7 +33,7 @@ struktur project seperti ini:
 
 ```
 rizquna-bakery/
-├── client/     ← Frontend (React.js)
+├── client/     ← Frontend (React.js + Tailwind CSS)
 └── server/     ← Backend (Express.js)
 ```
 
@@ -47,7 +47,7 @@ npm install
 #### 🔹 Install dependencies backend
 
 ```bash
-cd ../server
+cd server
 npm install
 ```
 
