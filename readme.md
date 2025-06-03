@@ -46,6 +46,8 @@ npm install
 
 #### 🔹 Install dependencies backend
 
+Buka terminal baru:
+
 ```bash
 cd server
 npm install
