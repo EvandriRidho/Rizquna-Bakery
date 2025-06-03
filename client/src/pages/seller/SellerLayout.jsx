@@ -23,8 +23,8 @@ const SellerLayout = () => {
                     <img className="cursor-pointer w-34 md:w-38" src={assets.logo} alt="logo" />
                 </Link>
                 <div className="flex items-center gap-5 text-gray-500">
-                    <p>Halo! Admin</p>
-                    <button onClick={logout} className='border rounded-full text-sm px-4 py-1'>Logout</button>
+                    <p className="hidden md:block">Halo! Admin</p>
+                    <button onClick={logout} className='border rounded-full text-sm px-6 py-2 bg-primary hover:bg-primary-dull text-white'>Logout</button>
                 </div>
             </div>
             <div className="flex">
