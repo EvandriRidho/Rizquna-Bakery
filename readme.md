@@ -1,6 +1,6 @@
 # Rizquna Bakery 🍞
 
-**Rizquna Bakery** adalah toko roti online yang ditujukan untuk para pencinta roti maupun masyarakat umum. Aplikasi ini memungkinkan pengguna untuk melihat katalog produk, melakukan pemesanan, serta melacak status pesanan secara online. Admin dapat mengelola produk melalui dashboard yang lengkap dan aman.
+**Rizquna Bakery** adalah toko roti online yang ditujukan untuk para pencinta roti maupun masyarakat umum. Aplikasi ini memungkinkan pengguna untuk melihat katalog produk, melakukan pemesanan, serta melacak status pesanan secara online. Admin dapat mengelola produk melalui dashboard yang lengkap dan aman, Dan responsive secara mobile dan desktop
 
 ## ✨ Fitur Utama
 
