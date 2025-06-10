@@ -10,7 +10,7 @@
 * 💳 Sistem pembayaran
 * 🚚 Tracking status pesanan
 * 📊 Dashboard admin
-* 🛠️ Dan masih banyak lagi...
+* 🛠️ Dan masih banyak lagi
 
 ## 🧱 Tech Stack
 
