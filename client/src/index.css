@@ -5,10 +5,10 @@
   font-family: "Outfit", sans-serif;
 }
 
-@theme {
-  --color-primary: #a47148;         /* warna brown bread */
-  --color-primary-dull: #8b5e3c;    /* warna rustic bread */
-}
+@theme {   
+  --color-primary: #4fbf8b;   
+  --color-primary-dull: #44ae7c; 
+}  
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;

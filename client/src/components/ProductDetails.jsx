@@ -106,10 +106,10 @@ const ProductDetails = () => {
             </div>
             {/* Realated Products */}
             <div className="flex flex-col mt-20 items-center">
-                <div className="flex flex-col items-end w-max">
+                <div className="flex flex-col items-start w-max md:items-end">
                     <p className="text-3xl font-medium">Produk Terkait</p>
                     <div className="w-20 h-0.5 bg-primary rounded-full mt-2"></div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-6 lg:grid-cols-5 mt-6 w-full">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-6 lg:grid-cols-5 mt-6 w-full">
                         {
                             relatedProducts.filter((product) => product.inStock).map((product, index) => (
                                 <ProductCard key={index} product={product} />

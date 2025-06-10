@@ -24,7 +24,7 @@ const ProductCategory = () => {
             }
             {
                 filteredProducts.length > 0 ? (
-                    <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-6 lg:grid-cols-5 mt-6'>
+                    <div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-6 lg:grid-cols-5 mt-6'>
                         {filteredProducts.map((product) => (
                             <ProductCard key={product._id} product={product} />
                         ))}

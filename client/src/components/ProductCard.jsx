@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
                 navigate(`/products/${product.category.toLowerCase()}/${product._id}`);
                 scrollTo(0, 0);
             }}
-            className="border border-gray-500/20 rounded-md md:px-4 px-3 py-2 bg-white min-w-56 max-w-56 w-full">
+            className="border border-gray-500/20 rounded-md md:px-4 px-3 py-2 bg-white min-w-58 max-w-58 w-full">
             <div className="group cursor-pointer flex items-center justify-center px-2">
                 <img className="group-hover:scale-105 transition max-w-26 md:max-w-36" src={product.image[0]} alt={product.name} />
             </div>
@@ -37,11 +37,11 @@ const ProductCard = ({ product }) => {
                         onClick={(e) => e.stopPropagation()}
                     >
                         {!cartItems[product._id] ? (
-                            <button className="flex items-center justify-center gap-1 bg-primary/10 border border-primary/40 md:w-[80px] w-[64px] h-[34px] rounded cursor-pointer"
+                            <button className="flex items-center justify-center gap-1 bg-primary/10 border border-primary/40 md:w-[80px] w-[70px] h-[34px] rounded cursor-pointer"
                                 onClick={() => addToCart(product._id)}
                             >
                                 <img src={assets.cart_icon} alt="cart-icon" />
-                                Tambah
+                                <span className="hidden md:block">Tambah</span>
                             </button>
                         ) : (
                             <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-[34px] bg-primary/25 rounded select-none">
