@@ -23,8 +23,8 @@
 ### 1. **Clone repository**
 
 ```bash
-git clone https://github.com/username/rizquna-bakery.git
-cd rizquna-bakery
+git clone https://github.com/username/Rizquna-Bakery.git
+cd Rizquna-Bakery
 ```
 
 ### 2. **Setup frontend dan backend**
