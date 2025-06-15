@@ -3,6 +3,7 @@ import express from 'express'
 import cors from 'cors'
 import connectDB from './configs/db.js'
 import 'dotenv/config'
+import userRouter from './routes/userRoute.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,9 +18,8 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors({ origin: allowedOrigins, credentials: true }))
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+// Routes
+app.use('/api/user', userRouter)
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`)
