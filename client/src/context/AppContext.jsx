@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { dummyProducts } from "../assets/assets";
 import toast from "react-hot-toast";
 import axios from "axios"
 
@@ -35,6 +34,19 @@ export const AppContextProvider = ({ children }) => {
             }
         } catch (error) {
             setIsSeller(false)
+        }
+    }
+
+    // Fetch user status, user data, dan cart items
+    const fetchUser = async () => {
+        try {
+            const { data } = await axios.get('/api/user/is-auth')
+            if (data.success) {
+                setUser(data.user)
+                setCartItems(data.user.cartItems)
+            }
+        } catch (error) {
+            setUser(null)
         }
     }
 
@@ -109,6 +121,7 @@ export const AppContextProvider = ({ children }) => {
     }
 
     useEffect(() => {
+        fetchUser()
         fetchSeller()
         fetchProducts()
     }, [])

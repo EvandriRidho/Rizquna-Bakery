@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { assets } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
 
@@ -36,7 +36,7 @@ const ProductCard = ({ product }) => {
                         className="text-primary"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        {!cartItems[product._id] ? (
+                        {cartItems?.[product._id] > 0 ? (
                             <button className="flex items-center justify-center gap-1 bg-primary/10 border border-primary/40 md:w-[80px] w-[70px] h-[34px] rounded cursor-pointer"
                                 onClick={() => addToCart(product._id)}
                             >
@@ -48,8 +48,8 @@ const ProductCard = ({ product }) => {
                                 <button onClick={() => removeCartItem(product._id)} className="cursor-pointer text-md px-2 h-full" >
                                     -
                                 </button>
-                                <span className="w-5 text-center">{cartItems[product._id]}</span>
-                                <button onClick={() => updateCartItem(product._id, cartItems[product._id] + 1)} className="cursor-pointer text-md px-2 h-full" >
+                                    <span className="w-5 text-center">{cartItems?.[product._id] || 0}</span>
+                                    <button onClick={() => updateCartItem(product._id, (cartItems?.[product._id] || 0) + 1)} className="cursor-pointer text-md px-2 h-full" >
                                     +
                                 </button>
                             </div>

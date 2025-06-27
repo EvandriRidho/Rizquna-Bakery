@@ -2,15 +2,26 @@ import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { assets } from '../assets/assets.js'
 import { useAppContext } from '../context/AppContext.jsx'
+import toast from 'react-hot-toast'
 
 const Navbar = () => {
     const [open, setOpen] = React.useState(false)
-    const { user, setUser, setShowUserLogin, navigate, setSearchQuery, searchQuery, getCartCount } = useAppContext()
+    const { user, setUser, setShowUserLogin, navigate, setSearchQuery, searchQuery, getCartCount, axios } = useAppContext()
 
 
     const logout = async () => {
-        setUser(null)
-        navigate('/')
+        try {
+            const { data } = await axios.get('/api/user/logout')
+            if (data.success) {
+                toast.success(data.message)
+                setUser(null)
+                navigate('/')
+            } else {
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
     }
 
     useEffect(() => {
@@ -30,7 +41,6 @@ const Navbar = () => {
             <div className="hidden sm:flex items-center gap-8">
                 <NavLink to={'/'}>Beranda</NavLink>
                 <NavLink to={'/products'}>Semua Produk</NavLink>
-                <NavLink to={'/'}>Kontak</NavLink>
 
                 {/* Search Bar */}
                 <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
