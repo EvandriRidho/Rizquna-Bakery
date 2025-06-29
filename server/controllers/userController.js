@@ -22,8 +22,12 @@ export const register = async (req, res) => {
         const user = await User.create({
             name,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            cartItems: {}
         })
+
+        user.markModified("cartItems");
+        await user.save();
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
             expiresIn: "7d"
@@ -38,7 +42,6 @@ export const register = async (req, res) => {
 
         return res.json({ success: true, user: { email: user.email, name: user.name }, message: "Register Berhasil" })
     } catch (error) {
-        console.log(error.message);
         res.json({ success: false, message: error.message })
     }
 }

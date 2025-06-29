@@ -43,12 +43,28 @@ export const AppContextProvider = ({ children }) => {
             const { data } = await axios.get('/api/user/is-auth')
             if (data.success) {
                 setUser(data.user)
-                setCartItems(data.user.cartItems)
+
+                // 👇 tambahkan konversi array ke object di sini
+                const convertCartArrayToObject = (cartArray) => {
+                    const result = {};
+                    for (const item of cartArray) {
+                        result[item.productId] = item.quantity;
+                    }
+                    return result;
+                }
+
+                const cartObject = Array.isArray(data.user.cartItems)
+                    ? convertCartArrayToObject(data.user.cartItems)
+                    : data.user.cartItems;
+
+                setCartItems(cartObject);
             }
         } catch (error) {
             setUser(null)
+            setCartItems({})
         }
     }
+
 
     // Fetch Products
     const fetchProducts = async () => {
@@ -66,38 +82,32 @@ export const AppContextProvider = ({ children }) => {
 
     // add Cart
     const addToCart = (itemId) => {
-        let cartData = structuredClone(cartItems);
-
-        if (cartData[itemId]) {
-            cartData[itemId] += 1;
-        } else {
-            cartData[itemId] = 1;
-        }
-        setCartItems(cartData)
-        toast.success('Item Berhasil di tambah')
-    }
+        setCartItems(prev => {
+            const next = { ...prev };
+            next[itemId] = (next[itemId] || 0) + 1;
+            return next;
+        });
+        toast.success("Item berhasil ditambah");
+    };
 
     // Update Cart
     const updateCartItem = (itemId, quantity) => {
-        let cartData = structuredClone(cartItems)
-        cartData[itemId] = quantity
-        setCartItems(cartData)
-        toast.success('Item Berhasil di update')
-    }
+        setCartItems(prev => ({ ...prev, [itemId]: quantity }));
+        toast.success("Item berhasil di‑update");
+    };
 
     // Remove Cart
     const removeCartItem = (itemId) => {
-        let cartData = structuredClone(cartItems)
-
-        if (cartData[itemId]) {
-            cartData[itemId] -= 1;
-            if (cartData[itemId] === 0) {
-                delete cartData[itemId]
+        setCartItems(prev => {
+            const next = { ...prev };
+            if (next[itemId]) {
+                next[itemId] -= 1;
+                if (next[itemId] === 0) delete next[itemId];
             }
-            setCartItems(cartData)
-            toast.success('Item Berhasil di hapus')
-        }
-    }
+            return next;
+        });
+        toast.success("Item berhasil dihapus");
+    };
 
     // Get Cart Item Count
     const getCartCount = () => {
@@ -125,6 +135,24 @@ export const AppContextProvider = ({ children }) => {
         fetchSeller()
         fetchProducts()
     }, [])
+
+    // Update db cart items
+    useEffect(() => {
+        const updateCart = async () => {
+            try {
+                const { data } = await axios.post('api/cart/update', { cartItems })
+                if (!data.success) {
+                    toast.error(data.message)
+                }
+            } catch (error) {
+                toast.error(error.message)
+            }
+        }
+
+        if (user) {
+            updateCart()
+        }
+    }, [cartItems])
 
 
     const value = { navigate, user, setUser, isSeller, setIsSeller, showUserLogin, setShowUserLogin, products, currency, addToCart, updateCartItem, removeCartItem, cartItems, searchQuery, setSearchQuery, getCartCount, getCartAmount, axios, fetchProducts }
