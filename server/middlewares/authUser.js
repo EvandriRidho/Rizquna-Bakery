@@ -10,7 +10,7 @@ const authUser = async (req, res, next) => {
     try {
         const tokenDecode = jwt.verify(token, process.env.JWT_SECRET)
         if (tokenDecode.id) {
-            req.user = tokenDecode.id 
+            req.user = tokenDecode.id
         } else {
             return res.json({ success: false, message: "Token tidak valid" })
         }
