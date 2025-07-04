@@ -127,7 +127,7 @@ export const AppContextProvider = ({ children }) => {
                 totalAmount += itemInfo.offerPrice * cartItems[items];
             }
         }
-        return Math.floor(totalAmount * 100) / 100;
+        return Math.floor(totalAmount);
     };
 
     useEffect(() => {

@@ -15,9 +15,6 @@ export const placeOrderCOD = async (req, res) => {
             return (await acc) + product.offerPrice * item.quantity
         }, 0)
 
-        // tax 10%
-        amount += Math.floor(amount * 0.1)
-
         await Order.create({ userId, items, address, amount, paymentType: "COD" })
 
         return res.json({ success: true, message: "Order berhasil dibuat" })

@@ -51,7 +51,7 @@ const MyOrders = () => {
                         <p className='flex justify-between md:items-center text-gray-400 md:font-medium max-md:flex-col'>
                             <span>OrderId: {order._id}</span>
                             <span>Pembayaran: {order.paymentType}</span>
-                            {/* <span>Harga Total: {formatRupiah(order.amount)}</span> */}
+                            <span>Harga Total: {formatRupiah(order.amount)}</span>
                         </p>
                         {
                             order.items.map((item, index) => (
