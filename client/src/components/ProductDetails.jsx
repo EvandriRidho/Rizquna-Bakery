@@ -4,6 +4,16 @@ import { Link, useParams } from "react-router-dom";
 import { assets } from "../assets/assets";
 import ProductCard from "./ProductCard";
 
+// Fungsi formatter Rupiah
+const formatRupiah = (value) => {
+    if (!value) return "Rp0";
+    return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0,
+    }).format(value);
+};
+
 const ProductDetails = () => {
     const { products, navigate, currency, addToCart } = useAppContext();
     const { id } = useParams();
@@ -28,8 +38,8 @@ const ProductDetails = () => {
     return product && (
         <div className="mt-16">
             <p>
-                <Link to="/">Home</Link> /
-                <Link to="/products"> Products</Link> /
+                <Link to="/">Beranda</Link> /
+                <Link to="/products"> Produk</Link> /
                 <Link to={`/products/${product.category.toLowerCase()}`}> {product.category}</Link> /
                 <span className="text-primary"> {product.name}</span>
             </p>
@@ -70,10 +80,10 @@ const ProductDetails = () => {
 
                     <div className="mt-6">
                         <p className="text-gray-500/70 line-through">
-                            MRP: {currency}{product.price}
+                            Harga: {formatRupiah(product.price)}
                         </p>
                         <p className="text-2xl font-medium">
-                            MRP: {currency}{product.offerPrice}
+                            Harga: {formatRupiah(product.offerPrice)}
                         </p>
                         <span className="text-gray-500/70">(Bebas Pajak)</span>
                     </div>

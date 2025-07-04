@@ -1,9 +1,18 @@
 import { assets } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
 
+// Fungsi untuk memformat Rupiah
+const formatRupiah = (value) => {
+    if (!value) return "Rp0";
+    return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0,
+    }).format(value);
+};
+
 const ProductCard = ({ product }) => {
     const {
-        currency,
         addToCart,
         updateCartItem,
         removeCartItem,
@@ -31,22 +40,11 @@ const ProductCard = ({ product }) => {
                 <p className="text-gray-700 font-medium text-lg truncate w-full">
                     {product.name}
                 </p>
-                <div className="flex items-center gap-0.5">
-                    {Array(5).fill('').map((_, i) => (
-                        <img
-                            key={i}
-                            src={i < 4 ? assets.star_icon : assets.star_dull_icon}
-                            alt="star"
-                            className="md:w-3.5 w3"
-                        />
-                    ))}
-                    <p>(4)</p>
-                </div>
                 <div className="flex items-end justify-between mt-3">
                     <p className="md:text-xl text-base font-medium text-primary">
-                        {currency}{product.offerPrice}{' '}
+                        {formatRupiah(product.offerPrice)}{" "}
                         <span className="text-gray-500/60 md:text-sm text-xs line-through">
-                            {currency}{product.price}
+                            {formatRupiah(product.price)}
                         </span>
                     </p>
                     <div
@@ -76,10 +74,12 @@ const ProductCard = ({ product }) => {
                                         {cartItems?.[product._id] ?? 0}
                                     </span>
                                     <button
-                                        onClick={() => updateCartItem(
+                                        onClick={() =>
+                                            updateCartItem(
                                             product._id,
                                             (cartItems?.[product._id] ?? 0) + 1
-                                        )}
+                                            )
+                                        }
                                         className="cursor-pointer text-md px-2 h-full"
                                     >
                                     +

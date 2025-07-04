@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react"
 import { useAppContext } from "../context/AppContext"
-import { assets, dummyAddress } from "../assets/assets"
+import { assets } from "../assets/assets"
 import toast from "react-hot-toast"
 
+// Fungsi formatter Rupiah
+const formatRupiah = (value) => {
+    if (!value) return "Rp0";
+    return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0,
+    }).format(value);
+};
 
 const Cart = () => {
-    const { products, currency, cartItems, removeCartItem, getCartCount, navigate, updateCartItem, getCartAmount, axios, user }
+    const { products, cartItems, removeCartItem, getCartCount, navigate, updateCartItem, getCartAmount, axios, user, setCartItems }
         = useAppContext()
-
 
     const [cartArray, setCartArray] = useState([])
     const [addresses, setAddresses] = useState([])
@@ -18,9 +26,15 @@ const Cart = () => {
     const getCart = () => {
         let tempArray = []
         for (const key in cartItems) {
-            const product = products.find((itrem) => itrem._id === key)
-            product.quantity = cartItems[key]
-            tempArray.push(product)
+            const product = products.find((item) => item._id === key)
+            if (product) {
+                tempArray.push({
+                    ...product,
+                    quantity: cartItems[key]
+                })
+            } else {
+                console.warn("Produk tidak ditemukan untuk ID:", key)
+            }
         }
         setCartArray(tempArray)
     }
@@ -42,12 +56,36 @@ const Cart = () => {
     }
 
     const placeOrder = async () => {
-        // Place Order
+        try {
+            if (!selectedAddress) {
+                return toast.error('Pilih Alamat')
+            }
+
+            if (paymentOption === "COD") {
+                const { data } = await axios.post('/api/order/cod', {
+                    userId: user._id,
+                    items: cartArray.map(item => ({ product: item._id, quantity: item.quantity })),
+                    address: selectedAddress
+                })
+
+                if (data.success) {
+                    toast.success(data.message)
+                    setCartItems({})
+                    navigate('/my-orders')
+                } else {
+                    toast.error(data.message)
+                }
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
     }
 
     useEffect(() => {
-        if (products.length > 0 && cartItems) {
+        if (products.length > 0 && cartItems && Object.keys(cartItems).length > 0) {
             getCart()
+        } else {
+            setCartArray([])
         }
     }, [products, cartItems])
 
@@ -56,7 +94,6 @@ const Cart = () => {
             getUserAddress()
         }
     }, [user])
-
 
     return products.length > 0 && cartItems ? (
         <div className="flex flex-col md:flex-row mt-16">
@@ -97,13 +134,12 @@ const Cart = () => {
                                 </div>
                             </div>
                         </div>
-                        <p className="text-center">{currency}{product.offerPrice * product.quantity}</p>
+                        <p className="text-center">{formatRupiah(product.offerPrice * product.quantity)}</p>
                         <button className="cursor-pointer mx-auto" onClick={() => removeCartItem(product._id)}>
-                            <img src={assets.remove_icon} alt="remove" className="inline-block w-6 h-6 "
-                            />
+                            <img src={assets.remove_icon} alt="remove" className="inline-block w-6 h-6" />
                         </button>
-                    </div>)
-                )}
+                    </div>
+                ))}
 
                 <button className="group cursor-pointer flex items-center mt-8 gap-2 text-primary font-medium">
                     <img src={assets.arrow_right_icon_colored} alt="right-arrow" className="group-hover:-translate-x-1 transition"
@@ -114,7 +150,6 @@ const Cart = () => {
                     />
                     Lanjut Belanja
                 </button>
-
             </div>
 
             <div className="max-w-[360px] w-full bg-gray-100/40 p-5 max-md:mt-16 border border-gray-300/70">
@@ -159,21 +194,24 @@ const Cart = () => {
 
                 <div className="text-gray-500 mt-4 space-y-2">
                     <p className="flex justify-between">
-                        <span>Harga</span><span>{currency}{getCartAmount()}</span>
+                        <span>Harga</span><span>{formatRupiah(getCartAmount())}</span>
                     </p>
                     <p className="flex justify-between">
                         <span>Pengiriman</span><span className="text-green-600">Free</span>
                     </p>
-                    <p className="flex justify-between">
-                        <span>Pajak (10%)</span><span>{currency}{getCartAmount() * 0.1}</span>
-                    </p>
                     <p className="flex justify-between text-lg font-medium mt-3">
-                        <span>Total:</span><span>{currency}{getCartAmount() + getCartAmount() * 0.1}</span>
+                        <span>Total:</span><span>{formatRupiah(getCartAmount())}</span>
                     </p>
                 </div>
 
-                <button onClick={placeOrder} className="w-full py-3 mt-6 cursor-pointer bg-primary text-white font-medium hover:bg-primary-dull transition">
-                    {paymentOption === "COD" ? "Bayar di Tempat" : "Bayar Online"}
+                <button
+                    onClick={placeOrder}
+                    className={`w-full py-3 mt-6 font-medium transition 
+                            ${paymentOption === "COD" ? "cursor-pointer bg-primary text-white hover:bg-primary-dull"
+                            : "cursor-not-allowed bg-gray-400 text-white"}`}
+                    disabled={paymentOption !== "COD"}
+                >
+                    {paymentOption === "COD" ? <span>Bayar di Tempat</span> : <span>Bayar Online</span>}
                 </button>
             </div>
         </div>

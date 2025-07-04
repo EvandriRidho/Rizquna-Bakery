@@ -1,5 +1,6 @@
 import Order from '../models/Order.js'
 import Product from '../models/Product.js'
+import mongoose from 'mongoose'
 
 // Place Order COD : /api/order/cod
 export const placeOrderCOD = async (req, res) => {
@@ -29,14 +30,21 @@ export const placeOrderCOD = async (req, res) => {
 // Get Orders by User ID : /api/order/user
 export const getUserOrders = async (req, res) => {
     try {
-        const { userId } = req.body
+        console.log("🔍 USER dari req.user.id:", req.user?.id)
+
+        const userId = new mongoose.Types.ObjectId(req.user)
+
+
         const orders = await Order.find({
             userId,
             $or: [{ paymentType: "COD" }, { isPaid: true }]
         }).populate("items.product address").sort({ createdAt: -1 })
+
+        console.log("📦 ORDER YANG DIAMBIL:", orders)
+
         return res.json({ success: true, orders })
     } catch (error) {
-        console.log(error.message);
+        console.log("❌ ERROR:", error.message)
         res.json({ success: false, message: error.message })
     }
 }
