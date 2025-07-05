@@ -3,18 +3,8 @@ import { useAppContext } from "../context/AppContext"
 import { assets } from "../assets/assets"
 import toast from "react-hot-toast"
 
-// Fungsi formatter Rupiah
-const formatRupiah = (value) => {
-    if (!value) return "Rp0";
-    return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-    }).format(value);
-};
-
 const Cart = () => {
-    const { products, cartItems, removeCartItem, getCartCount, navigate, updateCartItem, getCartAmount, axios, user, setCartItems }
+    const { products, cartItems, removeCartItem, getCartCount, navigate, updateCartItem, getCartAmount, axios, user, setCartItems, formatRupiah }
         = useAppContext()
 
     const [cartArray, setCartArray] = useState([])

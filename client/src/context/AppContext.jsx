@@ -130,6 +130,16 @@ export const AppContextProvider = ({ children }) => {
         return Math.floor(totalAmount);
     };
 
+    // Fungsi formatter Rupiah
+    const formatRupiah = (value) => {
+        if (!value) return "Rp0";
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            minimumFractionDigits: 0,
+        }).format(value);
+    };
+
     useEffect(() => {
         fetchUser()
         fetchSeller()
@@ -155,7 +165,7 @@ export const AppContextProvider = ({ children }) => {
     }, [cartItems])
 
 
-    const value = { navigate, user, setUser, isSeller, setIsSeller, showUserLogin, setShowUserLogin, products, currency, addToCart, updateCartItem, removeCartItem, cartItems, searchQuery, setSearchQuery, getCartCount, getCartAmount, axios, fetchProducts, setCartItems }
+    const value = { navigate, user, setUser, isSeller, setIsSeller, showUserLogin, setShowUserLogin, products, currency, addToCart, updateCartItem, removeCartItem, cartItems, searchQuery, setSearchQuery, getCartCount, getCartAmount, axios, fetchProducts, setCartItems, formatRupiah }
     return (
         <AppContext.Provider value={value}>
             {children}

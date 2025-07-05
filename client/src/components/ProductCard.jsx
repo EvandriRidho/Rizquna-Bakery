@@ -1,23 +1,14 @@
 import { assets } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
 
-// Fungsi untuk memformat Rupiah
-const formatRupiah = (value) => {
-    if (!value) return "Rp0";
-    return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-    }).format(value);
-};
-
 const ProductCard = ({ product }) => {
     const {
         addToCart,
         updateCartItem,
         removeCartItem,
         navigate,
-        cartItems
+        cartItems,
+        formatRupiah
     } = useAppContext();
 
     return product && (

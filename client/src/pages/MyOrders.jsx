@@ -1,19 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useAppContext } from '../context/AppContext'
 
-// Fungsi untuk memformat Rupiah
-const formatRupiah = (value) => {
-    if (!value) return "Rp0";
-    return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-    }).format(value);
-};
-
 const MyOrders = () => {
     const [myOrders, setMyOrders] = useState([])
-    const { currency, axios, user } = useAppContext()
+    const { formatRupiah, axios, user } = useAppContext()
 
     const fetchMyOrders = async () => {
         try {

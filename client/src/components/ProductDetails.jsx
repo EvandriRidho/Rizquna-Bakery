@@ -4,18 +4,8 @@ import { Link, useParams } from "react-router-dom";
 import { assets } from "../assets/assets";
 import ProductCard from "./ProductCard";
 
-// Fungsi formatter Rupiah
-const formatRupiah = (value) => {
-    if (!value) return "Rp0";
-    return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-    }).format(value);
-};
-
 const ProductDetails = () => {
-    const { products, navigate, currency, addToCart } = useAppContext();
+    const { products, navigate, addToCart, formatRupiah } = useAppContext();
     const { id } = useParams();
 
     const [relatedProducts, setRelatedProducts] = useState([]);

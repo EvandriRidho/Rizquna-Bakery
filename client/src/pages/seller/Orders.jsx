@@ -1,21 +1,10 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../context/AppContext";
-import { assets, dummyOrders } from "../../assets/assets";
+import { assets } from "../../assets/assets";
 import toast from "react-hot-toast";
 
-
-// Fungsi untuk memformat Rupiah
-const formatRupiah = (value) => {
-    if (!value) return "Rp0";
-    return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-    }).format(value);
-};
-
 const Orders = () => {
-    const { axios } = useAppContext();
+    const { axios, formatRupiah } = useAppContext();
     const [orders, setOrders] = useState([]);
 
     const fetchOrders = async () => {

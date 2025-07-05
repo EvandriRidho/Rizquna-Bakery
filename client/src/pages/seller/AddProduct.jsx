@@ -3,16 +3,6 @@ import { assets, categories } from "../../assets/assets";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
 
-// Fungsi format Rupiah
-const formatRupiah = (value) => {
-    if (!value) return "Rp0";
-    return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-    }).format(value);
-};
-
 const AddProduct = () => {
     const [files, setFiles] = useState([]);
     const [name, setName] = useState("");
@@ -21,7 +11,7 @@ const AddProduct = () => {
     const [price, setPrice] = useState("");
     const [offerPrice, setOfferPrice] = useState("");
 
-    const { axios } = useAppContext();
+    const { axios, formatRupiah } = useAppContext();
 
     const onSubmitHandler = async (e) => {
         try {
