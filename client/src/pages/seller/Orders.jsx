@@ -37,7 +37,7 @@ const Orders = () => {
                         <div className="flex gap-4 w-full md:w-[220px]">
                             <img
                                 className="w-12 h-12 object-cover"
-                                src={assets.box_icon}
+                                src={assets.box_icons_edit}
                                 alt="boxIcon"
                             />
                             <div className="space-y-1">
@@ -67,7 +67,7 @@ const Orders = () => {
 
                         {/* Kolom 3: Harga */}
                         <div className="w-full md:w-[80px] text-left md:text-center">
-                            <p className="font-medium text-lg text-black/80">
+                            <p className="font-medium text-lg text-primary">
                                 {formatRupiah(order.amount)}
                             </p>
                         </div>

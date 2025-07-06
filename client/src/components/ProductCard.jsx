@@ -1,5 +1,5 @@
-import { assets } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
+import { CiShoppingCart } from "react-icons/ci";
 
 const ProductCard = ({ product }) => {
     const {
@@ -50,7 +50,7 @@ const ProductCard = ({ product }) => {
                                     addToCart(product._id);
                                 }}
                             >
-                                <img src={assets.cart_icon} alt="cart-icon" />
+                                <CiShoppingCart />
                                 <span className="hidden md:block">Tambah</span>
                             </button>
                         ) : (

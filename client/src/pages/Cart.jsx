@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useAppContext } from "../context/AppContext"
-import { assets } from "../assets/assets"
 import toast from "react-hot-toast"
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const Cart = () => {
     const { products, cartItems, removeCartItem, getCartCount, navigate, updateCartItem, getCartAmount, axios, user, setCartItems, formatRupiah }
@@ -125,19 +125,29 @@ const Cart = () => {
                             </div>
                         </div>
                         <p className="text-center">{formatRupiah(product.offerPrice * product.quantity)}</p>
-                        <button className="cursor-pointer mx-auto" onClick={() => removeCartItem(product._id)}>
-                            <img src={assets.remove_icon} alt="remove" className="inline-block w-6 h-6" />
+                        <button
+                            className="cursor-pointer mx-auto text-primary"
+                            onClick={() => removeCartItem(product._id)}
+                        >
+                            <span className="inline-block w-6 h-6">
+                                X
+                            </span>
                         </button>
                     </div>
                 ))}
 
-                <button className="group cursor-pointer flex items-center mt-8 gap-2 text-primary font-medium">
-                    <img src={assets.arrow_right_icon_colored} alt="right-arrow" className="group-hover:-translate-x-1 transition"
-                        onClick={() => {
-                            navigate("/products");
-                            scrollTo(0, 0);
-                        }}
-                    />
+                <button
+                    className="group cursor-pointer flex items-center mt-8 gap-2 text-primary font-medium"
+                    onClick={() => {
+                        navigate("/products");
+                        scrollTo(0, 0);
+                    }}
+                >
+                    <span
+                        className="group-hover:-translate-x-1 transition"
+                    >
+                        <FaArrowLeftLong />
+                    </span>
                     Lanjut Belanja
                 </button>
             </div>
@@ -187,7 +197,7 @@ const Cart = () => {
                         <span>Harga</span><span>{formatRupiah(getCartAmount())}</span>
                     </p>
                     <p className="flex justify-between">
-                        <span>Pengiriman</span><span className="text-green-600">Free</span>
+                        <span>Pengiriman</span><span className="text-primary">Free</span>
                     </p>
                     <p className="flex justify-between text-lg font-medium mt-3">
                         <span>Total:</span><span>{formatRupiah(getCartAmount())}</span>

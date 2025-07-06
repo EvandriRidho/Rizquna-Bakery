@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import { Link, useParams } from "react-router-dom";
-import { assets } from "../assets/assets";
 import ProductCard from "./ProductCard";
 
 const ProductDetails = () => {
@@ -55,18 +54,6 @@ const ProductDetails = () => {
 
                 <div className="text-sm w-full md:w-1/2">
                     <h1 className="text-3xl font-medium">{product.name}</h1>
-
-                    <div className="flex items-center gap-0.5 mt-1">
-                        {Array(5).fill('').map((_, i) => (
-                            <img
-                                key={i}
-                                src={i < 4 ? assets.star_icon : assets.star_dull_icon}
-                                alt="star"
-                                className="md:w-4 w-3.5"
-                            />
-                        ))}
-                        <p className="text-base ml-2">(4)</p>
-                    </div>
 
                     <div className="mt-6">
                         <p className="text-gray-500/70 line-through">

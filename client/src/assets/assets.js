@@ -25,8 +25,6 @@ import main_banner_bg_sm from "./main_banner_bg_sm.png";
 import bottom_banner_image from "./bottom_banner_image.png";
 import bottom_banner_image_sm from "./bottom_banner_image_sm.png";
 import add_address_iamge from "./add_address_image.svg";
-import organic_vegitable_image from "./organic_vegitable_image.png";
-import fresh_fruits_image from "./fresh_fruits_image.png";
 import bottles_image from "./bottles_image.png";
 import maggi_image from "./maggi_image.png";
 import dairy_product_image from "./dairy_product_image.png";
@@ -43,7 +41,11 @@ import onion_image_1 from "./onion_image_1.png";
 import banana_image_1 from "./banana_image_1.png";
 import mango_image_1 from "./mango_image_1.png";
 import grapes_image_1 from "./grapes_image_1.png";
-
+import bakery_image from "./bakery_image.png"
+import brownies_image from "./chocolate_cake_image.png"
+import logo_image from './logo_bakery.svg'
+import box_icons_edit from './box_icons_edit.jpeg'
+import chef_logo from './chef_logo.jpeg'
 
 export const assets = {
   logo,
@@ -73,19 +75,22 @@ export const assets = {
   bottom_banner_image_sm,
   add_address_iamge,
   box_icon,
+  logo_image,
+  box_icons_edit,
+  chef_logo
 };
 
 export const categories = [
   {
     text: "Roti",
     path: "roti",
-    image: organic_vegitable_image,
+    image: bakery_image,
     bgColor: "#FEF6DA",
   },
   {
     text: "Brownies",
     path: "brownies",
-    image: fresh_fruits_image,
+    image: brownies_image,
     bgColor: "#FEE0E0",
   },
   {
