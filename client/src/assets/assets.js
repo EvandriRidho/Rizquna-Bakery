@@ -46,6 +46,13 @@ import brownies_image from "./chocolate_cake_image.png"
 import logo_image from './logo_bakery.svg'
 import box_icons_edit from './box_icons_edit.jpeg'
 import chef_logo from './chef_logo.jpeg'
+import footer_logo from './chef_logo_footer.png'
+import donat_image from './donat_image.png'
+import puding_image from './puding_image.png'
+import bolu_image from './bolu_image.png'
+import location from './location.png'
+import banner_lg from './banner_lg.png'
+import banner_sm from './banner_main_sm.png'
 
 export const assets = {
   logo,
@@ -77,7 +84,14 @@ export const assets = {
   box_icon,
   logo_image,
   box_icons_edit,
-  chef_logo
+  chef_logo,
+  footer_logo,
+  donat_image,
+  puding_image,
+  bolu_image,
+  location,
+  banner_lg,
+  banner_sm
 };
 
 export const categories = [
@@ -96,19 +110,19 @@ export const categories = [
   {
     text: "Donat",
     path: "donat",
-    image: bottles_image,
+    image: donat_image,
     bgColor: "#F0F5DE",
   },
   {
     text: "Puding",
     path: "puding",
-    image: maggi_image,
+    image: puding_image, 
     bgColor: "#E1F5EC",
   },
   {
     text: "Aneka Bolu",
     path: "anekabolu",
-    image: dairy_product_image,
+    image: bolu_image,
     bgColor: "#FEE6CD",
   },
 ];

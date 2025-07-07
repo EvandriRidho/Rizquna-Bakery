@@ -34,7 +34,10 @@ const Navbar = () => {
         <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
 
             <NavLink to={'/'} onClick={() => setOpen(false)}>
-                <img className="h-9" src={assets.logo} alt="logo" />
+                <div className='flex items-center'>
+                    <img className="h-9 md:h-14" src={assets.chef_logo} alt="logo" />
+                    <span className='text-lg md:text-2xl text-primary font-semibold'>Rizquna Bakery</span>
+                </div>
             </NavLink>
 
             {/* Desktop Menu */}
@@ -118,8 +121,6 @@ const Navbar = () => {
                         {user &&
                             <NavLink to={'/my-orders'} onClick={() => setOpen(false)}>Orderan Saya</NavLink>
                         }
-
-                        <NavLink to={'/'} onClick={() => setOpen(false)}>kontak</NavLink>
 
                         {!user ? (
                             <button className="cursor-pointer px-6 py-2 mt-2 bg-primary hover:bg-primary-dull transition text-white rounded-full text-sm"
