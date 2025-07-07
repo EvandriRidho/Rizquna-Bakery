@@ -4,7 +4,7 @@ const authUser = async (req, res, next) => {
     const { token } = req.cookies
 
     if (!token) {
-        return res.json({ success: false, message: "Anda tidak memiliki akses" })
+        return res.status(401).json({ success: false, message: "Anda tidak memiliki akses" })
     }
 
     try {
@@ -12,11 +12,11 @@ const authUser = async (req, res, next) => {
         if (tokenDecode.id) {
             req.user = tokenDecode.id
         } else {
-            return res.json({ success: false, message: "Token tidak valid" })
+            return res.status(403).json({ success: false, message: "Token tidak valid" })
         }
         next()
     } catch (error) {
-        res.json({ success: false, message: error.message })
+        res.status(401).json({ success: false, message: error.message })
     }
 }
 

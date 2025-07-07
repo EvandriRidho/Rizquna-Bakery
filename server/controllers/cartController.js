@@ -7,13 +7,13 @@ export const updateCart = async (req, res) => {
         const { cartItems } = req.body;
 
         if (!userId || !cartItems) {
-            return res.json({ success: false, message: "Data tidak lengkap" });
+            return res.status(400).json({ success: false, message: "Data tidak lengkap" });
         }
 
         await User.findByIdAndUpdate(userId, { cartItems });
 
-        return res.json({ success: true, message: "Cart berhasil diupdate" });
+        return res.status(200).json({ success: true, message: "Cart berhasil diupdate" });
     } catch (error) {
-        return res.json({ success: false, message: error.message });
+        return res.status(500).json({ success: false, message: error.message });
     }
 };

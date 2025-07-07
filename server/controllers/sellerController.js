@@ -15,23 +15,21 @@ export const login = async (req, res) => {
                 maxAge: 7 * 24 * 60 * 60 * 1000
             })
 
-            return res.json({ success: true, message: 'Login Berhasil' })
+            return res.status(200).json({ success: true, message: 'Login Berhasil' })
         } else {
-            return res.json({ success: false, message: 'Email atau password salah' })
+            return res.status(401).json({ success: false, message: 'Email atau password salah' })
         }
     } catch (error) {
-        console.log(error.message);
-        res.json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 
 // auth seller : /api/seller/is-auth
 export const isSellerAuth = async (req, res) => {
     try {
-        return res.json({ success: true })
+        return res.status(200).json({ success: true })
     } catch (error) {
-        console.log(error.message);
-        res.json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 
@@ -43,10 +41,9 @@ export const sellerLogut = async (req, res) => {
             secure: process.env.NODE_ENV === "production",
             sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
         });
-        return res.json({ success: true, message: "Logout Berhasil" })
+        return res.status(200).json({ success: true, message: "Logout Berhasil" })
 
     } catch (error) {
-        console.log(error.message);
-        res.json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
