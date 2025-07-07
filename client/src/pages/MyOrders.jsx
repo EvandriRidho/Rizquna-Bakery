@@ -8,7 +8,6 @@ const MyOrders = () => {
     const fetchMyOrders = async () => {
         try {
             const { data } = await axios.get('api/order/user')
-            console.log("response", data)
             if (data.success) {
                 setMyOrders(data.orders)
             }
@@ -19,11 +18,8 @@ const MyOrders = () => {
 
     useEffect(() => {
         if (user) {
-            console.log("User ada", user)
             fetchMyOrders()
-        } else {
-            console.log("User tidak ada")
-        }
+        } 
     }, [user])
 
     return (
