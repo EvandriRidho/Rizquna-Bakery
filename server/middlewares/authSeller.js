@@ -15,7 +15,7 @@ const authSeller = async (req, res, next) => {
             return res.status(403).json({ success: false, message: "Token tidak valid" })
         }
     } catch (error) {
-        res.status(401).json({ success: false, message: error.message })
+        res.status(401).json({ success: false, message: "Token tidak sah atau telah kedaluwarsa." })
     }
 }
 

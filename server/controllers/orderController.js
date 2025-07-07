@@ -19,7 +19,7 @@ export const placeOrderCOD = async (req, res) => {
 
         return res.status(201).json({ success: true, message: "Order berhasil dibuat" })
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: "Terjadi kesalahan saat membuat pesanan: " + error.message })
     }
 }
 
@@ -35,7 +35,7 @@ export const getUserOrders = async (req, res) => {
 
         return res.status(200).json({ success: true, orders })
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: "Gagal mengambil daftar pesanan: " + error.message })
     }
 }
 
@@ -48,6 +48,6 @@ export const getAllOrders = async (req, res) => {
         return res.status(200).json({ success: true, orders })
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: "Gagal mengambil semua pesanan: " + error.message })
     }
 }

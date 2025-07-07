@@ -16,7 +16,7 @@ const authUser = async (req, res, next) => {
         }
         next()
     } catch (error) {
-        res.status(401).json({ success: false, message: error.message })
+        res.status(401).json({ success: false, message: "Token tidak sah atau telah kedaluwarsa." })
     }
 }
 

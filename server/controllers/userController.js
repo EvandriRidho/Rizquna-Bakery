@@ -42,7 +42,7 @@ export const register = async (req, res) => {
 
         return res.status(201).json({ success: true, user: { email: user.email, name: user.name }, message: "Register Berhasil" })
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: "Terjadi kesalahan saat registrasi: " + error.message })
     }
 }
 
@@ -81,7 +81,7 @@ export const login = async (req, res) => {
         return res.status(200).json({ success: true, user: { email: user.email, name: user.name }, message: "Login Berhasil" })
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: "Terjadi kesalahan saat login: " + error.message })
     }
 }
 
@@ -93,7 +93,7 @@ export const isAuth = async (req, res) => {
         return res.status(200).json({ success: true, user })
 
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: "Gagal memverifikasi autentikasi: " + error.message })
     }
 }
 
@@ -109,6 +109,6 @@ export const logout = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: "Terjadi kesalahan saat logout: " + error.message })
     }
 }

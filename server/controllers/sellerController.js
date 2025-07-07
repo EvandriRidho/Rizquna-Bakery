@@ -20,7 +20,7 @@ export const login = async (req, res) => {
             return res.status(401).json({ success: false, message: 'Email atau password salah' })
         }
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: 'Terjadi kesalahan saat login: ' + error.message })
     }
 }
 
@@ -29,7 +29,7 @@ export const isSellerAuth = async (req, res) => {
     try {
         return res.status(200).json({ success: true })
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: 'Gagal memverifikasi autentikasi penjual: ' + error.message })
     }
 }
 
@@ -44,6 +44,6 @@ export const sellerLogut = async (req, res) => {
         return res.status(200).json({ success: true, message: "Logout Berhasil" })
 
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: 'Gagal logout: ' + error.message })
     }
 }

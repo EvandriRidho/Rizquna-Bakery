@@ -7,7 +7,7 @@ export const addAdress = async (req, res) => {
         await Address.create({ ...address, userId })
         res.status(201).json({ success: true, message: "Alamat berhasil ditambahkan" })
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: "Terjadi kesalahan saat menambahkan alamat: " + error.message })
     }
 }
 
@@ -16,8 +16,8 @@ export const getAddress = async (req, res) => {
     try {
         const userId = req.user
         const addresses = await Address.find({ userId })
-        res.status(200).json({ success: true, addresses })
+        res.status(200).json({ success: true, addresses, message: "Daftar alamat berhasil diambil." })
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: "Terjadi kesalahan saat mengambil alamat: " + error.message })
     }
 }

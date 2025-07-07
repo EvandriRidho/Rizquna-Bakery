@@ -22,7 +22,7 @@ export const addProduct = async (req, res) => {
         res.status(201).json({ success: true, message: "product berhasil ditambahkan" })
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: "Terjadi kesalahan saat menambahkan produk: " + error.message })
     }
 }
 
@@ -33,7 +33,7 @@ export const productList = async (req, res) => {
         res.status(200).json({ success: true, products })
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: "Gagal mengambil daftar produk: " + error.message })
     }
 }
 
@@ -45,7 +45,7 @@ export const productById = async (req, res) => {
         res.status(200).json({ success: true, product })
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: "Gagal mengambil detail produk: " + error.message })
     }
 }
 
@@ -58,6 +58,6 @@ export const changeStock = async (req, res) => {
         res.status(200).json({ success: true, message: "stock berhasil diubah" })
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ success: false, message: error.message })
+        res.status(500).json({ success: false, message: "Gagal mengubah status stok: " + error.message })
     }
 }
