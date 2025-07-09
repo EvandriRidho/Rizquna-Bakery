@@ -48,28 +48,80 @@ const Cart = () => {
     const placeOrder = async () => {
         try {
             if (!selectedAddress) {
-                return toast.error('Pilih Alamat')
+                return toast.error('Pilih Alamat');
             }
+
+            const itemsPayload = cartArray.map(item => ({
+                product: item._id,
+                quantity: item.quantity
+            }));
 
             if (paymentOption === "COD") {
                 const { data } = await axios.post('/api/order/cod', {
                     userId: user._id,
-                    items: cartArray.map(item => ({ product: item._id, quantity: item.quantity })),
+                    items: itemsPayload,
                     address: selectedAddress
-                })
+                });
 
                 if (data.success) {
-                    toast.success(data.message)
-                    setCartItems({})
-                    navigate('/my-orders')
+                    toast.success(data.message);
+                    await axios.post("/api/cart/update", { cartItems: {} });
+                    setCartItems({});
+                    navigate('/my-orders');
                 } else {
-                    toast.error(data.message)
+                    toast.error(data.message);
+                }
+            }
+
+            if (paymentOption === "Online") {
+                const { data } = await axios.post('/api/order/online', {
+                    userId: user._id,
+                    items: itemsPayload,
+                    address: selectedAddress,
+                    userInfo: {
+                        name: user.name,
+                        email: user.email,
+                        phone: user.phone
+                    }
+                });
+
+                if (data.success) {
+                    const script = document.createElement("script");
+                    script.src = "https://app.sandbox.midtrans.com/snap/snap.js";
+                    script.setAttribute("data-client-key", import.meta.env.VITE_MIDTRANS_CLIENT_KEY);
+
+                    script.onload = () => {
+                        window.snap.pay(data.token, {
+                            onSuccess: async () => {
+                                toast.success("Pembayaran berhasil");
+
+                                setCartItems({});
+                                await axios.post("/api/cart/update", { cartItems: {}, userId: user._id });
+
+                                navigate("/my-orders");
+                            },
+                            onPending: () => {
+                                toast("Menunggu pembayaran...");
+                            },
+                            onError: () => {
+                                toast.error("Terjadi kesalahan saat pembayaran");
+                            },
+                            onClose: () => {
+                                toast.error("Pembayaran dibatalkan");
+                            }
+                        });
+                    };
+
+                    document.body.appendChild(script);
+                } else {
+                    toast.error(data.message);
                 }
             }
         } catch (error) {
-            toast.error(error.message)
+            toast.error(error.message);
         }
-    }
+    };
+
 
     useEffect(() => {
         if (products.length > 0 && cartItems && Object.keys(cartItems).length > 0) {
@@ -206,13 +258,11 @@ const Cart = () => {
 
                 <button
                     onClick={placeOrder}
-                    className={`w-full py-3 mt-6 font-medium transition 
-                            ${paymentOption === "COD" ? "cursor-pointer bg-primary text-white hover:bg-primary-dull"
-                            : "cursor-not-allowed bg-gray-400 text-white"}`}
-                    disabled={paymentOption !== "COD"}
+                    className={`w-full py-3 mt-6 font-medium transition bg-primary text-white hover:bg-primary-dull`}
                 >
                     {paymentOption === "COD" ? <span>Bayar di Tempat</span> : <span>Bayar Online</span>}
                 </button>
+
             </div>
         </div>
     ) : null

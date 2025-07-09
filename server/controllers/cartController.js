@@ -3,7 +3,7 @@ import User from "../models/User.js";
 
 export const updateCart = async (req, res) => {
     try {
-        const userId = req.user;
+        const userId = req.user || req.body.userId;
         const { cartItems } = req.body;
 
         if (!userId || typeof cartItems !== "object") {

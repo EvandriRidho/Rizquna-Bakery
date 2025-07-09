@@ -9,7 +9,7 @@ const ProductCategory = () => {
     const { category } = useParams()
 
     const searchCategory = categories.find((item) => item.path.toLowerCase() === category)
-    const filteredProducts = products.filter((product) => product.category.toLowerCase() === category)
+    const filteredProducts = products.filter((product) => product.category.toLowerCase() === category && product.inStock === true)
 
     return (
         <div className='mt-16'>

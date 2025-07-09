@@ -140,6 +140,17 @@ export const AppContextProvider = ({ children }) => {
         }).format(value);
     };
 
+    const syncCartToServer = async () => {
+        try {
+            const { data } = await axios.post("/api/cart/update", { cartItems });
+            if (!data.success) {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
     useEffect(() => {
         fetchUser()
         fetchSeller()
@@ -147,24 +158,23 @@ export const AppContextProvider = ({ children }) => {
     }, [])
 
     // Update db cart items
-    useEffect(() => {
-        if (!user || !cartItems || Object.keys(cartItems).length === 0) return;
+    // useEffect(() => {
+    //     if (!user || cartItems === null) return;
+    //     const updateCart = async () => {
+    //         try {
+    //             const { data } = await axios.post("/api/cart/update", { cartItems });
+    //             if (!data.success) {
+    //                 toast.error(data.message);
+    //             }
+    //         } catch (error) {
+    //             toast.error(error.message);
+    //         }
+    //     };
+    //     updateCart();
+    // }, [user, cartItems]); // <- pastikan dua-duanya ada
 
-        const updateCart = async () => {
-            try {
-                const { data } = await axios.post("/api/cart/update", { cartItems });
-                if (!data.success) {
-                    toast.error(data.message);
-                }
-            } catch (error) {
-                toast.error(error.message);
-            }
-        };
-        updateCart();
-    }, [user, cartItems]); // <- pastikan dua-duanya ada
 
-
-    const value = { navigate, user, setUser, isSeller, setIsSeller, showUserLogin, setShowUserLogin, products, currency, addToCart, updateCartItem, removeCartItem, cartItems, searchQuery, setSearchQuery, getCartCount, getCartAmount, axios, fetchProducts, setCartItems, formatRupiah }
+    const value = { navigate, user, setUser, isSeller, setIsSeller, showUserLogin, setShowUserLogin, products, currency, addToCart, updateCartItem, removeCartItem, cartItems, searchQuery, setSearchQuery, getCartCount, getCartAmount, axios, fetchProducts, setCartItems, formatRupiah, syncCartToServer }
     return (
         <AppContext.Provider value={value}>
             {children}

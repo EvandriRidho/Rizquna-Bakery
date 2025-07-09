@@ -1,6 +1,97 @@
 import Order from '../models/Order.js'
 import Product from '../models/Product.js'
 import mongoose from 'mongoose'
+import midtransClient from 'midtrans-client'
+
+// Midtrans Snap Client
+const snap = new midtransClient.Snap({
+    isProduction: false,
+    serverKey: process.env.MIDTRANS_SERVER_KEY
+})
+
+// Place Order via Midtrans
+export const placeOrderOnline = async (req, res) => {
+    try {
+        const { userId, items, address, userInfo } = req.body;
+
+        if (!address || items.length === 0) {
+            return res.status(400).json({ success: false, message: "Alamat dan Produk harus diisi" });
+        }
+
+        let amount = await items.reduce(async (acc, item) => {
+            const product = await Product.findById(item.product)
+            return (await acc) + product.offerPrice * item.quantity
+        }, 0)
+
+        const order = await Order.create({
+            userId,
+            items,
+            address,
+            amount,
+            paymentType: "Online",
+            isPaid: false
+        });
+
+        const parameter = {
+            transaction_details: {
+                order_id: order._id.toString(),
+                gross_amount: amount,
+            },
+            customer_details: {
+                first_name: userInfo.name,
+                email: userInfo.email,
+                phone: userInfo.phone
+            },
+            callbacks: {
+                finish: `${process.env.CLIENT_URL}/my-orders`
+            }
+        };
+
+        const transaction = await snap.createTransaction(parameter);
+
+        res.status(200).json({
+            success: true,
+            token: transaction.token,
+            redirect_url: transaction.redirect_url,
+            orderId: order._id
+        });
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
+// Midtrans Callback
+export const midtransCallbackHandler = async (req, res) => {
+    try {
+        const { order_id, transaction_status } = req.body;
+
+        if (!order_id || !transaction_status) {
+            return res.status(400).json({ success: false, message: "Data tidak lengkap" });
+        }
+
+        // Cek validitas order_id
+        if (!mongoose.Types.ObjectId.isValid(order_id)) {
+            return res.status(400).json({ success: false, message: "ID tidak valid" });
+        }
+
+        if (['settlement', 'capture'].includes(transaction_status)) {
+            const order = await Order.findByIdAndUpdate(order_id, {
+                isPaid: true,
+                status: 'Pesanan di Terima',
+            });
+
+            // Tambahkan bagian ini untuk menghapus cart
+            await mongoose.connection.collection('carts').deleteOne({ userId: order.userId });
+        }
+
+
+        return res.status(200).json({ success: true, message: "Status diperbarui" });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 
 // Place Order COD : /api/order/cod
 export const placeOrderCOD = async (req, res) => {
