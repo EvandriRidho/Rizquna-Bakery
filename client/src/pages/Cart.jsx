@@ -258,10 +258,16 @@ const Cart = () => {
 
                 <button
                     onClick={placeOrder}
-                    className={`w-full py-3 mt-6 font-medium transition bg-primary text-white hover:bg-primary-dull`}
+                    disabled={paymentOption === "Online"}
+                    className={`w-full py-3 mt-6 font-medium transition text-white 
+        ${paymentOption === "Online"
+                            ? "bg-gray-400 cursor-not-allowed"
+                            : "bg-primary hover:bg-primary-dull"}
+    `}
                 >
-                    {paymentOption === "COD" ? <span>Bayar di Tempat</span> : <span>Bayar Online</span>}
+                    {paymentOption === "COD" ? <span>Bayar di Tempat</span> : <span>Bayar Online (Belum Aktif)</span>}
                 </button>
+
 
             </div>
         </div>
