@@ -18,7 +18,11 @@ await connectDB();
 await connectCloudinary();
 
 // CORS
-const allowedOrigins = ['http://localhost:5173'];
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://rizquna-frontend.vercel.app'
+];
+
 
 // Middleware
 app.use(express.json())
