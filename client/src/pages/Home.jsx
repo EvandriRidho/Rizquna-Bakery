@@ -1,6 +1,6 @@
 import Banner from "../components/Banner"
 import BestSeller from "../components/BestSeller"
-import Categories from "../components/categories"
+import Categories from "../components/Categories"
 
 
 const Home = () => {
