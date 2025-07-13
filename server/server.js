@@ -33,6 +33,11 @@ app.use('/api/cart', cartRouter)
 app.use('/api/address', addressRouter)
 app.use('/api/order', orderRouter)
 
+// Server
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
+
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`)
 })
