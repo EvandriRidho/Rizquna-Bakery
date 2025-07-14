@@ -261,7 +261,7 @@ const Cart = () => {
                     disabled={paymentOption === "Online"}
                     className={`w-full py-3 mt-6 font-medium transition text-white 
         ${paymentOption === "Online"
-                            ? "bg-gray-400 cursor-not-allowed"
+                        ? "bg-primary hover:bg-primary-dull"
                             : "bg-primary hover:bg-primary-dull"}
     `}
                 >

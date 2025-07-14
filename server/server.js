@@ -39,7 +39,7 @@ app.use('/api/order', orderRouter)
 
 // Server
 app.get('/', (req, res) => {
-    res.send('Rizquna Bakery API!!')
+    res.send('Rizquna Bakery API!! Working...')
 })
 
 app.listen(PORT, () => {
