@@ -9,7 +9,7 @@ const SellerLayout = () => {
 
     const sidebarLinks = [
         { name: "Tambah Produk", path: "/seller", icon: assets.add_icon },
-        { name: "List Produk", path: "/seller/product-list", icon: assets.product_list_icon },
+        { name: "Produk", path: "/seller/product-list", icon: assets.product_list_icon },
         { name: "Orderan", path: "/seller/orders", icon: assets.order_icon },
     ];
 
