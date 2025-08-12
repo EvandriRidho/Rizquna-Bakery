@@ -44,7 +44,6 @@ export const AppContextProvider = ({ children }) => {
             if (data.success) {
                 setUser(data.user)
 
-                // 👇 tambahkan konversi array ke object di sini
                 const convertCartArrayToObject = (cartArray) => {
                     const result = {};
                     for (const item of cartArray) {
@@ -76,7 +75,7 @@ export const AppContextProvider = ({ children }) => {
                 toast.error(data.message)
             }
         } catch (error) {
-            toast.error(error.message)
+            toast.error(error.response?.data?.message || error.message);
         }
     }
 
@@ -147,7 +146,7 @@ export const AppContextProvider = ({ children }) => {
                 toast.error(data.message);
             }
         } catch (error) {
-            toast.error(error.message);
+            toast.error(error.response?.data?.message || error.message);
         }
     };
 

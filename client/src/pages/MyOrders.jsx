@@ -12,7 +12,7 @@ const MyOrders = () => {
                 setMyOrders(data.orders)
             }
         } catch (error) {
-            console.log("error", error.response?.data || error.message)
+            toast.error(error.response?.data?.message || error.message);
         }
     }
 
