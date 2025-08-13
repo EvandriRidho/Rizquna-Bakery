@@ -29,7 +29,8 @@ export const placeOrderOnline = async (req, res) => {
             address,
             amount,
             paymentType: "Online",
-            isPaid: false
+            isPaid: true,
+            status: "Sedang Diproses"
         });
 
         const parameter = {
@@ -106,7 +107,15 @@ export const placeOrderCOD = async (req, res) => {
             return (await acc) + product.offerPrice * item.quantity
         }, 0)
 
-        await Order.create({ userId, items, address, amount, paymentType: "COD" })
+        await Order.create({
+            userId,
+            items,
+            address,
+            amount,
+            paymentType: "COD",
+            status: "Sedang Diproses",
+            isPaid: false
+        });
 
         return res.status(201).json({ success: true, message: "Order berhasil dibuat" })
     } catch (error) {
@@ -142,3 +151,25 @@ export const getAllOrders = async (req, res) => {
         res.status(500).json({ success: false, message: "Gagal mengambil semua pesanan: " + error.message })
     }
 }
+
+// Update Order Status (Admin Only)
+export const updateOrderStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status, isPaid } = req.body;
+
+        const order = await Order.findById(id);
+        if (!order) {
+            return res.status(404).json({ success: false, message: "Order tidak ditemukan" });
+        }
+
+        if (status) order.status = status;
+        if (typeof isPaid === "boolean") order.isPaid = isPaid;
+
+        await order.save();
+
+        return res.status(200).json({ success: true, message: "Status order diperbarui", order });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};

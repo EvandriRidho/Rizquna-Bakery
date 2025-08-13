@@ -9,11 +9,32 @@ const Orders = () => {
 
     const fetchOrders = async () => {
         try {
-            const { data } = await axios.get('/api/order/seller')
+            const { data } = await axios.get('/api/order/seller');
             if (data.success) {
-                setOrders(data.orders)
+                setOrders(data.orders);
             } else {
-                toast.error(data.message)
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message || error.message);
+        }
+    };
+
+    const updateStatus = async (id, status, paymentType) => {
+        try {
+            const payload = { status };
+
+            // Kalau status selesai & metode COD, otomatis ubah isPaid jadi true
+            if (status === "Selesai" && paymentType?.toLowerCase() === "cod") {
+                payload.isPaid = true;
+            }
+
+            const { data } = await axios.patch(`/api/order/${id}/status`, payload);
+            if (data.success) {
+                toast.success("Status diperbarui");
+                fetchOrders(); // refresh list
+            } else {
+                toast.error(data.message);
             }
         } catch (error) {
             toast.error(error.response?.data?.message || error.message);
@@ -80,8 +101,25 @@ const Orders = () => {
                             </p>
                             <p>
                                 Status Pembayaran:{" "}
-                                {order.isPaid ? "Selesai" : "Menunggu Pembayaran"}
+                                {order.isPaid ? "Selesai" : "Belum Dibayar"}
                             </p>
+                        </div>
+
+                        {/* Kolom 5: Status Order */}
+                        <div className="flex flex-col w-full md:w-[220px]">
+                            <label className="text-sm font-medium mb-2">Ubah Status</label>
+                            <select
+                                value={order.status}
+                                onChange={(e) =>
+                                    updateStatus(order._id, e.target.value, order.paymentType)
+                                }
+                                className="border border-gray-300 rounded p-2 text-sm"
+                            >
+                                <option value="Sedang Diproses">Sedang Diproses</option>
+                                <option value="Sedang Dikemas">Sedang Dikemas</option>
+                                <option value="Sedang Dikirim">Sedang Dikirim</option>
+                                <option value="Selesai">Selesai</option>
+                            </select>
                         </div>
                     </div>
                 ))}

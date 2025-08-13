@@ -8,10 +8,19 @@ const orderSchema = new mongoose.Schema({
     }],
     amount: { type: Number, required: true },
     address: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'address' },
-    status: { type: String, default: 'Pesanan di Terima' },
+    status: {
+        type: String,
+        enum: [
+            "Sedang Diproses",
+            "Sedang Dikemas",
+            "Sedang Dikirim",
+            "Selesai"
+        ],
+        default: "Sedang Diproses"
+    },
     paymentType: { type: String, required: true },
     isPaid: { type: Boolean, required: true, default: false },
 }, { timestamps: true });
 
 const Order = mongoose.models.order || mongoose.model('order', orderSchema);
-export default Order
+export default Order;
