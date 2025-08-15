@@ -17,7 +17,7 @@ export const addProduct = async (req, res) => {
             })
         )
 
-        await Product.create({ ...productData, image: imagesUrl })
+        await Product.create({ ...productData, image: imagesUrl, stock: productData.stock || 0 })
 
         res.status(201).json({ success: true, message: "product berhasil ditambahkan" })
     } catch (error) {
@@ -61,3 +61,17 @@ export const changeStock = async (req, res) => {
         res.status(500).json({ success: false, message: "Gagal mengubah status stok: " + error.message })
     }
 }
+
+// change stock jumlah produk
+export const updateStockQty = async (req, res) => {
+    try {
+        const { id, stock } = req.body;
+        if (stock < 0) {
+            return res.status(400).json({ success: false, message: "Stok tidak boleh negatif" });
+        }
+        await Product.findByIdAndUpdate(id, { stock, inStock: stock > 0 });
+        res.status(200).json({ success: true, message: "Jumlah stok berhasil diubah" });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Gagal mengubah jumlah stok: " + error.message });
+    }
+};
