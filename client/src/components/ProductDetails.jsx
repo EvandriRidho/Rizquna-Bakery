@@ -93,7 +93,7 @@ const ProductDetails = () => {
                             </span>
                         )}
                         {!outOfStock && (
-                            <span className="absolute top-3 left-3 z-10 text-xs px-2 py-0.5 rounded bg-emerald-500 text-white">
+                            <span className="absolute top-3 left-3 z-10 text-xs px-2 py-0.5 rounded bg-primary text-white">
                                 Stok: {stock}
                             </span>
                         )}

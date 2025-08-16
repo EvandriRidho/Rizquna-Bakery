@@ -107,7 +107,7 @@ const Orders = () => {
 
                         {/* Kolom 5: Status Order */}
                         <div className="flex flex-col w-full md:w-[220px]">
-                            <label className="text-sm font-medium mb-2">Ubah Status</label>
+                            <label className="text-sm font-medium mb-2">Status</label>
                             <select
                                 value={order.status}
                                 onChange={(e) =>

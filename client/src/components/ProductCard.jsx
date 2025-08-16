@@ -32,7 +32,7 @@ const ProductCard = ({ product }) => {
                     </span>
                 )}
                 {!outOfStock && (
-                    <span className="absolute top-2 left-2 text-xs px-2 py-0.5 rounded bg-emerald-500 text-white">
+                    <span className="absolute top-2 left-2 text-xs px-2 py-0.5 rounded bg-primary text-white">
                         Stok: {stock}
                     </span>
                 )}
