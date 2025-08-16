@@ -60,7 +60,6 @@ const ProductDetails = () => {
             return toast.error(`Maksimal ${stock}`);
         }
         updateCartItem(id, target);
-        toast.success("Ditambahkan ke keranjang");
     };
 
     return product ? (
