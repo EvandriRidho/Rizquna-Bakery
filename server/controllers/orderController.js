@@ -123,7 +123,7 @@ export const midtransCallbackHandler = async (req, res) => {
         if (['settlement', 'capture'].includes(transaction_status)) {
             const order = await Order.findByIdAndUpdate(
                 order_id,
-                { isPaid: true, status: 'Pesanan di Terima' }, // status ada di enum (poin #1)
+                { isPaid: true, status: 'Sedang Diproses' }, 
                 { new: true }
             );
 

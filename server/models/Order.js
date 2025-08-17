@@ -15,7 +15,6 @@ const orderSchema = new mongoose.Schema({
             "Sedang Dikemas",
             "Sedang Dikirim",
             "Selesai",
-            "Pesanan di Terima"
         ],
         default: "Sedang Diproses"
     },
