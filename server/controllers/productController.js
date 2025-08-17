@@ -75,3 +75,30 @@ export const updateStockQty = async (req, res) => {
         res.status(500).json({ success: false, message: "Gagal mengubah jumlah stok: " + error.message });
     }
 };
+
+// update product : /api/product/update/:id
+export const updateProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, category, price, offerPrice, stock } = req.body;
+
+        // validasi stok
+        if (stock < 0) {
+            return res.status(400).json({ success: false, message: "Stok tidak boleh negatif" });
+        }
+
+        const updated = await Product.findByIdAndUpdate(
+            id,
+            { name, category, price, offerPrice, stock, inStock: stock > 0 },
+            { new: true }
+        );
+
+        if (!updated) {
+            return res.status(404).json({ success: false, message: "Produk tidak ditemukan" });
+        }
+
+        res.status(200).json({ success: true, message: "Produk berhasil diperbarui", product: updated });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Gagal update produk: " + error.message });
+    }
+};
