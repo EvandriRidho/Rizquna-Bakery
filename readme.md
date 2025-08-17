@@ -23,7 +23,7 @@
 ### 1. **Clone repository**
 
 ```bash
-git clone https://github.com/username/Rizquna-Bakery.git
+git clone https://github.com/EvandriRidho/Rizquna-Bakery.git
 cd Rizquna-Bakery
 ```
 
@@ -58,9 +58,24 @@ npm install
 Buat file `.env` di folder `server/` dan isi dengan konfigurasi berikut:
 
 ```env
-PORT=3000
+CLIENT_URL=http://localhost:5173
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
+NODE_ENV="development"
+SELLER_EMAIL=your_admin_email
+SELLER_PASSWORD=your_admin_password
+CLOUDINARY_CLOUD_NAME=your_cloudinary_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+MIDTRANS_CLIENT_KEY=your_midtrans_client_key
+MIDTRANS_SERVER_KEY=your_midtrans_Server_key
+```
+
+Buat file `.env` di folder `client/` dan isi dengan konfigurasi berikut:
+
+```env
+VITE_BACKEND_URL="http://localhost:3000"
+MIDTRANS_CLIENT_KEY=your_midtrans_client_key
 ```
 
 (Sesuaikan dengan environment kamu.)
@@ -71,7 +86,7 @@ JWT_SECRET=your_secret_key
 
 ```bash
 cd server
-npm run dev
+npm run server
 ```
 
 #### 🔹 Jalankan frontend
