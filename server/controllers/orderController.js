@@ -19,7 +19,7 @@ export const placeOrderOnline = async (req, res) => {
             return res.status(400).json({ success: false, message: "Alamat dan Produk harus diisi" });
         }
 
-        // 1. Validasi stok untuk semua item
+        // Validasi stok untuk semua item
         for (const item of items) {
             const product = await Product.findById(item.product);
             if (!product) {
@@ -33,7 +33,7 @@ export const placeOrderOnline = async (req, res) => {
             }
         }
 
-        // 2. Hitung total harga (dengan validasi produk ada)
+        // Hitung total harga (dengan validasi produk ada)
         let amount = await items.reduce(async (acc, item) => {
             const product = await Product.findById(item.product);
             if (!product) {
@@ -43,7 +43,7 @@ export const placeOrderOnline = async (req, res) => {
         }, 0);
 
 
-        // 3. Buat order
+        // Buat order
         const order = await Order.create({
             userId,
             items,
@@ -54,7 +54,7 @@ export const placeOrderOnline = async (req, res) => {
             status: "Sedang Diproses"
         });
 
-        // 4. Kurangi stok produk
+        // Kurangi stok produk
         for (const item of items) {
             const product = await Product.findById(item.product);
             product.stock -= item.quantity;
@@ -65,7 +65,7 @@ export const placeOrderOnline = async (req, res) => {
             await product.save();
         }
 
-        // 5. Midtrans parameter
+        // Midtrans parameter
         const parameter = {
             transaction_details: {
                 order_id: order._id.toString(),
@@ -145,7 +145,7 @@ export const placeOrderCOD = async (req, res) => {
             return res.status(400).json({ success: false, message: "Alamat dan Produk harus diisi" });
         }
 
-        // 1. Validasi stok
+        // Validasi stok
         for (const item of items) {
             const product = await Product.findById(item.product);
             if (!product) {
@@ -159,7 +159,7 @@ export const placeOrderCOD = async (req, res) => {
             }
         }
 
-        // 2. Hitung total harga (dengan validasi produk ada)
+        // Hitung total harga (dengan validasi produk ada)
         let amount = await items.reduce(async (acc, item) => {
             const product = await Product.findById(item.product);
             if (!product) {
@@ -169,7 +169,7 @@ export const placeOrderCOD = async (req, res) => {
         }, 0);
 
 
-        // 3. Buat order
+        // Buat order
         await Order.create({
             userId,
             items,
@@ -180,7 +180,7 @@ export const placeOrderCOD = async (req, res) => {
             isPaid: false
         });
 
-        // 4. Kurangi stok
+        // Kurangi stok
         for (const item of items) {
             const product = await Product.findById(item.product);
             product.stock -= item.quantity;
@@ -191,7 +191,7 @@ export const placeOrderCOD = async (req, res) => {
             await product.save();
         }
 
-        // 5. Hapus cart user (biar sama seperti online setelah sukses)
+        // Hapus cart user (biar sama seperti online setelah sukses)
         await mongoose.connection.collection('carts').deleteOne({ userId });
 
         return res.status(201).json({ success: true, message: "Order berhasil dibuat" });
