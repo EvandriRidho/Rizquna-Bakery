@@ -31,9 +31,7 @@ const Cart = () => {
             const product = products.find((p) => p._id === id);
             if (product) {
                 const stock = getStockSafe(id);
-                const qty = Math.min(Number(cartItems[id] || 0), Math.max(0, stock));
-                // auto-clamp if melebihi stok
-                if (qty !== cartItems[id]) updateCartItem(id, qty || 1);
+                const qty = Number(cartItems[id] || 0);
                 list.push({
                     ...product,
                     quantity: qty,
@@ -71,11 +69,10 @@ const Cart = () => {
         try {
             if (!selectedAddress) return toast.error("Pilih Alamat");
 
-            // Final guard sebelum submit
             for (const it of cartArray) {
                 if (it.quantity < 1) return toast.error("Jumlah tidak boleh 0");
                 if (it.quantity > it._stock)
-                    return toast.error(`"${it.name}" melebihi stok (${it._stock})`);
+                    return toast.error(`Pesanan anda melebihi jumlah stock untuk "${it.name}" (sisa ${it._stock})`);
             }
 
             const clearCartAndRefresh = async () => {
@@ -84,7 +81,6 @@ const Cart = () => {
                     cartItems: []
                 });
                 setCartItems({});
-                // Refresh produk biar stok baru muncul
                 if (typeof fetchProducts === "function") await fetchProducts();
             };
 
@@ -137,12 +133,10 @@ const Cart = () => {
         }
     };
 
-
     useEffect(() => {
         if (products.length > 0 && cartItems && Object.keys(cartItems).length > 0)
             buildCart();
         else setCartArray([]);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [products, cartItems]);
 
     useEffect(() => {
@@ -164,7 +158,6 @@ const Cart = () => {
                 </div>
 
                 {cartArray.map((product) => {
-                    const maxQty = Math.max(1, product._stock);
                     const warn = product.quantity > product._stock || product._stock === 0;
 
                     return (
@@ -199,23 +192,24 @@ const Cart = () => {
                                         </p>
                                         <div className="flex items-center gap-2">
                                             <p>Jumlah:</p>
-                                            <select
-                                                onChange={(e) =>
-                                                    updateCartItem(product._id, Number(e.target.value))
-                                                }
-                                                className={`outline-none border rounded px-2 py-1 ${warn ? "border-red-400" : "border-gray-300"
-                                                    }`}
+                                            <input
+                                                type="number"
+                                                min={1}
                                                 value={product.quantity}
-                                            >
-                                                {Array.from(
-                                                    { length: Math.min(99, maxQty) },
-                                                    (_, i) => i + 1
-                                                ).map((v) => (
-                                                    <option key={v} value={v}>
-                                                        {v}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                                onChange={(e) => {
+                                                    const val = Number(e.target.value);
+                                                    if (val < 1) {
+                                                        updateCartItem(product._id, 1);
+                                                    } else {
+                                                        updateCartItem(product._id, val);
+                                                        if (val > product._stock) {
+                                                            // toast.error("Pesanan anda melebihi jumlah stock");
+                                                        }
+                                                    }
+                                                }}
+                                                className={`w-20 outline-none border rounded px-2 py-1 text-center ${warn ? "border-red-400" : "border-gray-300"
+                                                    }`}
+                                            />
                                             {warn && (
                                                 <span className="text-xs text-red-500">
                                                     Sisa stok {product._stock}
@@ -287,11 +281,18 @@ const Cart = () => {
                                     </p>
                                 ))}
                                 <p
-                                    onClick={() => navigate("/add-address")}
+                                    onClick={() => {
+                                        if (!user) {
+                                            toast.error("Anda harus login untuk menambah alamat");
+                                            return;
+                                        }
+                                        navigate("/add-address");
+                                    }}
                                     className="text-primary text-center cursor-pointer p-2 hover:bg-indigo-500/10"
                                 >
                                     Tambah Alamat
                                 </p>
+
                             </div>
                         )}
                     </div>
