@@ -17,6 +17,7 @@ const Cart = () => {
         setCartItems,
         formatRupiah,
         getStockSafe,
+        fetchProducts,
     } = useAppContext();
 
     const [cartArray, setCartArray] = useState([]);

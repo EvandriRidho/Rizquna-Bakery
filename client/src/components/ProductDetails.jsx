@@ -8,7 +8,6 @@ const ProductDetails = () => {
     const {
         products,
         navigate,
-        addToCart,
         updateCartItem,
         cartItems,
         formatRupiah,
@@ -42,7 +41,6 @@ const ProductDetails = () => {
     }, [product]);
 
     useEffect(() => {
-        // reset qty to 1 when product changes
         setQty(1);
     }, [id]);
 
