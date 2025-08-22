@@ -25,6 +25,9 @@ const Cart = () => {
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [paymentOption, setPaymentOption] = useState("COD");
 
+    // state lokal untuk handle input jumlah
+    const [localQuantities, setLocalQuantities] = useState({});
+
     const buildCart = () => {
         const list = [];
         for (const id in cartItems) {
@@ -40,6 +43,13 @@ const Cart = () => {
             }
         }
         setCartArray(list);
+
+        // sync localQuantities
+        const initialQuantities = {};
+        list.forEach((p) => {
+            initialQuantities[p._id] = p.quantity;
+        });
+        setLocalQuantities(initialQuantities);
     };
 
     const getUserAddress = async () => {
@@ -195,17 +205,24 @@ const Cart = () => {
                                             <input
                                                 type="number"
                                                 min={1}
-                                                value={product.quantity}
+                                                value={localQuantities[product._id] ?? ""}
                                                 onChange={(e) => {
-                                                    const val = Number(e.target.value);
-                                                    if (val < 1) {
-                                                        updateCartItem(product._id, 1);
-                                                    } else {
-                                                        updateCartItem(product._id, val);
-                                                        if (val > product._stock) {
-                                                            // toast.error("Pesanan anda melebihi jumlah stock");
-                                                        }
-                                                    }
+                                                    const val = e.target.value;
+                                                    setLocalQuantities((prev) => ({
+                                                        ...prev,
+                                                        [product._id]: val === "" ? "" : Number(val),
+                                                    }));
+                                                }}
+                                                onBlur={() => {
+                                                    let qty = Number(localQuantities[product._id]);
+                                                    if (isNaN(qty) || qty < 1) qty = 1;
+                                                    if (qty > product._stock) qty = product._stock;
+
+                                                    setLocalQuantities((prev) => ({
+                                                        ...prev,
+                                                        [product._id]: qty,
+                                                    }));
+                                                    updateCartItem(product._id, qty);
                                                 }}
                                                 className={`w-20 outline-none border rounded px-2 py-1 text-center ${warn ? "border-red-400" : "border-gray-300"
                                                     }`}
@@ -248,6 +265,7 @@ const Cart = () => {
                 </button>
             </div>
 
+            {/* ringkasan belanja */}
             <div className="max-w-[360px] w-full bg-gray-100/40 p-5 max-md:mt-16 border border-gray-300/70">
                 <h2 className="text-xl md:text-xl font-medium">Ringkasan Belanja</h2>
                 <hr className="border-gray-300 my-5" />
