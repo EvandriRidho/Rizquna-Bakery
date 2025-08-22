@@ -129,14 +129,18 @@ const ProductDetails = () => {
                             max={Math.max(1, stock)}
                             value={qty}
                             onChange={(e) => {
-                                const v = Number(e.target.value || 1);
-                                if (v < 1) setQty(1);
-                                else if (v > stock) setQty(stock);
-                                else setQty(v);
+                                const v = e.target.value;
+                                if (v === "") setQty("");
+                                else setQty(Number(v));
+                            }}
+                            onBlur={() => {
+                                if (qty === "" || qty < 1) setQty(1);
+                                else if (qty > stock) setQty(stock);
                             }}
                             className="w-20 border border-gray-300 rounded px-3 py-2"
                             disabled={outOfStock}
                         />
+
                         {outOfStock ? (
                             <span className="text-red-500 text-sm">Tidak tersedia</span>
                         ) : (
