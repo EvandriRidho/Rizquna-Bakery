@@ -5,7 +5,14 @@ import { useAppContext } from "../../context/AppContext";
 const ProductList = () => {
     const { products, axios, fetchProducts, formatRupiah } = useAppContext();
     const [editingProduct, setEditingProduct] = useState(null);
-    const [form, setForm] = useState({ name: "", category: "", offerPrice: 0, stock: 0 });
+    const [form, setForm] = useState({
+        name: "",
+        category: "",
+        offerPrice: 0,
+        stock: 0,
+        mass: 0,
+        expired: "",
+    });
 
     const toggleStock = async (id, inStock) => {
         try {
@@ -27,7 +34,11 @@ const ProductList = () => {
             name: product.name,
             category: product.category,
             offerPrice: product.offerPrice,
-            stock: product.stock
+            stock: product.stock,
+            mass: product.mass ?? 0,
+            expired: product.expired
+                ? new Date(product.expired).toISOString().split("T")[0]
+                : "",
         });
     };
 
@@ -46,50 +57,62 @@ const ProductList = () => {
         }
     };
 
-
     return (
         <div className="no-scrollbar flex-1 h-[95vh] overflow-y-scroll flex flex-col justify-between">
             <div className="w-full md:p-10 p-4">
                 <h2 className="pb-4 text-lg font-medium">Semua Produk</h2>
 
-                <div className="flex flex-col items-center max-w-5xl w-full overflow-hidden rounded-md bg-white border border-gray-500/20">
+                <div className="flex flex-col items-center max-w-6xl w-full overflow-hidden rounded-md bg-white border border-gray-500/20">
                     <table className="md:table-auto table-fixed w-full overflow-hidden">
                         <thead className="text-gray-900 text-sm text-left bg-gray-50">
                             <tr>
                                 <th className="px-4 py-3">Produk</th>
                                 <th className="px-4 py-3">Kategori</th>
                                 <th className="px-4 py-3 hidden md:block">Harga Jual</th>
-                                <th className="px-4 py-3">Jumlah Stok</th>
+                                <th className="px-4 py-3">Berat (g)</th>
+                                <th className="px-4 py-3">Expired</th>
+                                <th className="px-4 py-3">Stok</th>
                                 <th className="px-4 py-3">Ketersediaan</th>
-                                <th className="px-4 py-3">Edit</th>
+                                <th className="px-4 py-3">Aksi</th>
                             </tr>
                         </thead>
+
                         <tbody className="text-sm text-gray-600">
                             {products.length > 0 ? (
                                 products.map((product) => (
-                                    <tr key={product._id} className="border-t border-gray-200 hover:bg-gray-50">
+                                    <tr
+                                        key={product._id}
+                                        className="border-t border-gray-200 hover:bg-gray-50 transition-colors"
+                                    >
+                                        {/* Nama & Gambar */}
                                         <td className="px-4 py-3 flex items-center space-x-3 truncate">
                                             <img
                                                 src={product.image?.[0] || "/placeholder.png"}
                                                 alt={product.name}
-                                                className="w-16 h-16 object-cover rounded"
+                                                className="w-14 h-14 object-cover rounded"
                                             />
                                             {editingProduct === product._id ? (
                                                 <input
                                                     type="text"
                                                     value={form.name}
-                                                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                                    onChange={(e) =>
+                                                        setForm({ ...form, name: e.target.value })
+                                                    }
                                                     className="border px-2 py-1 rounded w-full"
                                                 />
                                             ) : (
                                                 <span>{product.name}</span>
                                             )}
                                         </td>
+
+                                        {/* Kategori */}
                                         <td className="px-4 py-3">
                                             {editingProduct === product._id ? (
                                                 <select
                                                     value={form.category}
-                                                    onChange={(e) => setForm({ ...form, category: e.target.value })}
+                                                    onChange={(e) =>
+                                                        setForm({ ...form, category: e.target.value })
+                                                    }
                                                     className="border px-2 py-1 rounded w-full"
                                                 >
                                                     <option value="">Pilih Kategori</option>
@@ -102,36 +125,94 @@ const ProductList = () => {
                                             ) : (
                                                 product.category
                                             )}
-
                                         </td>
+
+                                        {/* Harga */}
                                         <td className="px-4 py-3 max-sm:hidden">
                                             {editingProduct === product._id ? (
                                                 <input
                                                     type="number"
                                                     value={form.offerPrice}
-                                                    onChange={(e) => setForm({ ...form, offerPrice: e.target.value })}
+                                                    onChange={(e) =>
+                                                        setForm({
+                                                            ...form,
+                                                            offerPrice: Number(e.target.value),
+                                                        })
+                                                    }
                                                     className="border px-2 py-1 rounded w-full"
                                                 />
                                             ) : (
                                                 formatRupiah(product.offerPrice)
                                             )}
                                         </td>
+
+                                        {/* Berat */}
+                                        <td className="px-4 py-3">
+                                            {editingProduct === product._id ? (
+                                                <input
+                                                    type="number"
+                                                    value={form.mass}
+                                                    onChange={(e) =>
+                                                        setForm({ ...form, mass: Number(e.target.value) })
+                                                    }
+                                                    className="border px-2 py-1 rounded w-20"
+                                                />
+                                            ) : (
+                                                `${product.mass ?? 0} g`
+                                            )}
+                                        </td>
+
+                                        {/* Expired */}
+                                        <td className="px-4 py-3">
+                                            {editingProduct === product._id ? (
+                                                <input
+                                                    type="date"
+                                                    value={form.expired}
+                                                    onChange={(e) =>
+                                                        setForm({ ...form, expired: e.target.value })
+                                                    }
+                                                    className="border px-2 py-1 rounded w-full"
+                                                />
+                                            ) : (
+                                                <span
+                                                    className={`${product.expired &&
+                                                        new Date(product.expired) < new Date()
+                                                        ? "text-red-500 font-medium"
+                                                        : "text-gray-600"
+                                                        }`}
+                                                >
+                                                    {product.expired
+                                                        ? new Date(product.expired).toLocaleDateString(
+                                                            "id-ID"
+                                                        )
+                                                        : "-"}
+                                                </span>
+                                            )}
+                                        </td>
+
+                                        {/* Stok */}
                                         <td className="px-4 py-3">
                                             {editingProduct === product._id ? (
                                                 <input
                                                     type="number"
                                                     value={form.stock}
-                                                    onChange={(e) => setForm({ ...form, stock: e.target.value })}
+                                                    onChange={(e) =>
+                                                        setForm({ ...form, stock: Number(e.target.value) })
+                                                    }
                                                     className="border px-2 py-1 rounded w-20"
                                                 />
                                             ) : (
                                                 product.stock ?? 0
                                             )}
                                         </td>
+
+                                        {/* Toggle Ketersediaan */}
                                         <td className="px-4 py-3">
                                             <label className="relative inline-flex items-center cursor-pointer">
                                                 <input
-                                                    onChange={() => toggleStock(product._id, !product.inStock)}
+                                                    onChange={() =>
+                                                        toggleStock(product._id, !product.inStock)
+                                                    }
                                                     checked={product.inStock}
                                                     type="checkbox"
                                                     className="sr-only peer"
@@ -141,6 +222,8 @@ const ProductList = () => {
                                                 <span className="dot absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-5"></span>
                                             </label>
                                         </td>
+
+                                        {/* Tombol Aksi */}
                                         <td className="px-4 py-3 space-x-2">
                                             {editingProduct === product._id ? (
                                                 <>
@@ -170,7 +253,10 @@ const ProductList = () => {
                                 ))
                             ) : (
                                 <tr>
-                                        <td colSpan={6} className="text-center py-6 text-gray-400">
+                                        <td
+                                            colSpan={8}
+                                            className="text-center py-6 text-gray-400"
+                                        >
                                         Tidak ada produk
                                     </td>
                                 </tr>

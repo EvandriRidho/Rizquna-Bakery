@@ -11,6 +11,8 @@ const AddProduct = () => {
     const [price, setPrice] = useState("");
     const [offerPrice, setOfferPrice] = useState("");
     const [stock, setStock] = useState("");
+    const [mass, setMass] = useState("");
+    const [expired, setExpired] = useState(""); 
     const [loading, setLoading] = useState(false);
 
     const { axios, formatRupiah } = useAppContext();
@@ -29,6 +31,11 @@ const AddProduct = () => {
             return;
         }
 
+        if (!mass || Number(mass) <= 0) {
+            toast.error("Massa produk harus lebih dari 0");
+            return;
+        }
+
         try {
             setLoading(true);
 
@@ -38,7 +45,9 @@ const AddProduct = () => {
                 category,
                 price: Number(price),
                 offerPrice: Number(offerPrice),
-                stock: Number(stock)
+                stock: Number(stock),
+                mass: Number(mass),
+                expired: expired || null, 
             };
 
             const formData = new FormData();
@@ -56,6 +65,8 @@ const AddProduct = () => {
                 setPrice("");
                 setOfferPrice("");
                 setStock("");
+                setMass("");
+                setExpired("");
                 setFiles([]);
             } else {
                 toast.error(data.message);
@@ -170,6 +181,32 @@ const AddProduct = () => {
                         />
                         <p className="text-sm text-gray-500">{formatRupiah(offerPrice)}</p>
                     </div>
+                </div>
+
+                {/* Massa Produk */}
+                <div className="flex flex-col gap-1 max-w-md">
+                    <label className="text-base font-medium" htmlFor="mass">Berat Produk (gram)</label>
+                    <input
+                        onChange={(e) => setMass(e.target.value)}
+                        value={mass}
+                        id="mass"
+                        type="number"
+                        placeholder="contoh: 250"
+                        className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
+                        required
+                    />
+                </div>
+
+                {/* Tanggal Kedaluwarsa */}
+                <div className="flex flex-col gap-1 max-w-md">
+                    <label className="text-base font-medium" htmlFor="expired">Tanggal Kedaluwarsa</label>
+                    <input
+                        onChange={(e) => setExpired(e.target.value)}
+                        value={expired}
+                        id="expired"
+                        type="date"
+                        className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
+                    />
                 </div>
 
                 {/* Stok */}

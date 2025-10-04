@@ -5,24 +5,41 @@ import Product from '../models/Product.js'
 export const addProduct = async (req, res) => {
     try {
         let productData = JSON.parse(req.body.productData)
-
         const images = req.files
 
-        let imagesUrl = await Promise.all(
+        // Upload semua gambar ke Cloudinary
+        const imagesUrl = await Promise.all(
             images.map(async (item) => {
-                let result = await cloudinary.uploader.upload(item.path, {
+                const result = await cloudinary.uploader.upload(item.path, {
                     resource_type: "image"
                 })
                 return result.secure_url
             })
         )
 
-        await Product.create({ ...productData, image: imagesUrl, stock: productData.stock || 0 })
+        // Validasi stok
+        const stock = productData.stock && productData.stock > 0 ? productData.stock : 0
 
-        res.status(201).json({ success: true, message: "product berhasil ditambahkan" })
+        const newProduct = await Product.create({
+            ...productData,
+            image: imagesUrl,
+            stock,
+            inStock: stock > 0,
+            mass: productData.mass || 0,
+            expired: productData.expired ? new Date(productData.expired) : null,
+        })
+
+        res.status(201).json({
+            success: true,
+            message: "Produk berhasil ditambahkan",
+            product: newProduct
+        })
     } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ success: false, message: "Terjadi kesalahan saat menambahkan produk: " + error.message })
+        console.log(error.message)
+        res.status(500).json({
+            success: false,
+            message: "Terjadi kesalahan saat menambahkan produk: " + error.message
+        })
     }
 }
 
@@ -32,7 +49,6 @@ export const productList = async (req, res) => {
         const products = await Product.find({})
         res.status(200).json({ success: true, products })
     } catch (error) {
-        console.log(error.message);
         res.status(500).json({ success: false, message: "Gagal mengambil daftar produk: " + error.message })
     }
 }
@@ -44,20 +60,17 @@ export const productById = async (req, res) => {
         const product = await Product.findById(id)
         res.status(200).json({ success: true, product })
     } catch (error) {
-        console.log(error.message);
         res.status(500).json({ success: false, message: "Gagal mengambil detail produk: " + error.message })
     }
 }
-
 
 // change product inStock : /api/product/stock
 export const changeStock = async (req, res) => {
     try {
         const { id, inStock } = req.body
         await Product.findByIdAndUpdate(id, { inStock })
-        res.status(200).json({ success: true, message: "stock berhasil diubah" })
+        res.status(200).json({ success: true, message: "Status stok berhasil diubah" })
     } catch (error) {
-        console.log(error.message);
         res.status(500).json({ success: false, message: "Gagal mengubah status stok: " + error.message })
     }
 }
@@ -65,40 +78,48 @@ export const changeStock = async (req, res) => {
 // change stock jumlah produk
 export const updateStockQty = async (req, res) => {
     try {
-        const { id, stock } = req.body;
+        const { id, stock } = req.body
         if (stock < 0) {
-            return res.status(400).json({ success: false, message: "Stok tidak boleh negatif" });
+            return res.status(400).json({ success: false, message: "Stok tidak boleh negatif" })
         }
-        await Product.findByIdAndUpdate(id, { stock, inStock: stock > 0 });
-        res.status(200).json({ success: true, message: "Jumlah stok berhasil diubah" });
+        await Product.findByIdAndUpdate(id, { stock, inStock: stock > 0 })
+        res.status(200).json({ success: true, message: "Jumlah stok berhasil diubah" })
     } catch (error) {
-        res.status(500).json({ success: false, message: "Gagal mengubah jumlah stok: " + error.message });
+        res.status(500).json({ success: false, message: "Gagal mengubah jumlah stok: " + error.message })
     }
-};
+}
 
 // update product : /api/product/update/:id
 export const updateProduct = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { name, category, price, offerPrice, stock } = req.body;
+        const { id } = req.params
+        const { name, category, price, offerPrice, stock, mass, expired } = req.body
 
-        // validasi stok
         if (stock < 0) {
-            return res.status(400).json({ success: false, message: "Stok tidak boleh negatif" });
+            return res.status(400).json({ success: false, message: "Stok tidak boleh negatif" })
         }
 
         const updated = await Product.findByIdAndUpdate(
             id,
-            { name, category, price, offerPrice, stock, inStock: stock > 0 },
+            {
+                name,
+                category,
+                price,
+                offerPrice,
+                stock,
+                inStock: stock > 0,
+                mass: mass || 0,
+                expired: expired ? new Date(expired) : null,
+            },
             { new: true }
-        );
+        )
 
         if (!updated) {
-            return res.status(404).json({ success: false, message: "Produk tidak ditemukan" });
+            return res.status(404).json({ success: false, message: "Produk tidak ditemukan" })
         }
 
-        res.status(200).json({ success: true, message: "Produk berhasil diperbarui", product: updated });
+        res.status(200).json({ success: true, message: "Produk berhasil diperbarui", product: updated })
     } catch (error) {
-        res.status(500).json({ success: false, message: "Gagal update produk: " + error.message });
+        res.status(500).json({ success: false, message: "Gagal update produk: " + error.message })
     }
-};
+}

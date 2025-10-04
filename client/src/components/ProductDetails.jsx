@@ -30,7 +30,9 @@ const ProductDetails = () => {
     useEffect(() => {
         if (products.length > 0 && product) {
             const productCopy = products
-                .filter((item) => product.category === item.category && item._id !== id)
+                .filter(
+                    (item) => product.category === item.category && item._id !== id
+                )
                 .slice(0, 5);
             setRelatedProducts(productCopy);
         }
@@ -65,11 +67,16 @@ const ProductDetails = () => {
             <p>
                 <Link to="/">Beranda</Link> /
                 <Link to="/products"> Produk</Link> /
-                <Link to={`/products/${product.category.toLowerCase()}`}> {product.category}</Link> /
+                <Link to={`/products/${product.category.toLowerCase()}`}>
+                    {" "}
+                    {product.category}
+                </Link>{" "}
+                /
                 <span className="text-primary"> {product.name}</span>
             </p>
 
             <div className="flex flex-col md:flex-row gap-16 mt-4">
+                {/* ==================== GAMBAR PRODUK ==================== */}
                 <div className="flex gap-3">
                     <div className="flex flex-col gap-3">
                         {product.image.map((image, index) => (
@@ -98,9 +105,11 @@ const ProductDetails = () => {
                     </div>
                 </div>
 
+                {/* ==================== DETAIL PRODUK ==================== */}
                 <div className="text-sm w-full md:w-1/2">
                     <h1 className="text-3xl font-medium">{product.name}</h1>
 
+                    {/* Harga */}
                     <div className="mt-6">
                         <p className="text-gray-500/70 line-through">
                             Harga: {formatRupiah(product.price)}
@@ -111,12 +120,37 @@ const ProductDetails = () => {
                         <span className="text-gray-500/70">(Bebas Pajak)</span>
                     </div>
 
+                    {/* Tentang Produk */}
                     <p className="text-base font-medium mt-6">Tentang Produk</p>
                     <ul className="list-disc ml-4 text-gray-500/70">
                         {product.description.map((desc, index) => (
                             <li key={index}>{desc}</li>
                         ))}
                     </ul>
+
+                    <div className="mt-5 text-gray-600 text-sm space-y-1">
+                        {product.mass && (
+                            <p>
+                                <span className="font-medium text-gray-800">Berat:</span>{" "}
+                                {product.mass} gram
+                            </p>
+                        )}
+                        {product.expired && (
+                            <p>
+                                <span className="font-medium text-gray-800">
+                                    Tanggal Kedaluwarsa:
+                                </span>{" "}
+                                <span
+                                    className={`${new Date(product.expired) < new Date()
+                                        ? "text-red-500 font-medium"
+                                        : ""
+                                        }`}
+                                >
+                                    {new Date(product.expired).toLocaleDateString("id-ID")}
+                                </span>
+                            </p>
+                        )}
+                    </div>
 
                     {/* Qty picker */}
                     <div className="mt-8 flex items-center gap-3">
@@ -146,6 +180,7 @@ const ProductDetails = () => {
                         )}
                     </div>
 
+                    {/* Tombol Beli */}
                     <div className="flex items-center mt-6 gap-4 text-base">
                         <button
                             disabled={outOfStock}
@@ -174,7 +209,7 @@ const ProductDetails = () => {
                 </div>
             </div>
 
-            {/* Related */}
+            {/* ==================== PRODUK TERKAIT ==================== */}
             <div className="flex flex-col mt-20 items-center">
                 <div className="flex flex-col items-start w-max md:items-end">
                     <p className="text-3xl font-medium">Produk Terkait</p>

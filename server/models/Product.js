@@ -9,6 +9,9 @@ const productSchema = new mongoose.Schema({
     category: { type: String, required: true },
     inStock: { type: Boolean, default: true },
     stock: { type: Number, default: 0, min: 0 },
+    mass: { type: Number, required: true, min: 0 },
+    expired: { type: Date, required: false }, 
+
 }, { timestamps: true });
 
 const Product = mongoose.models.product || mongoose.model('Product', productSchema);
